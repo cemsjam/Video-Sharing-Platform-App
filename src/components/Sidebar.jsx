@@ -1,11 +1,14 @@
-import styled from "styled-components";
 import SidebarMenuItem from "./SidebarMenuItem";
+import { ButtonLabel, SidebarBtn, IconContainer } from "./SidebarMenuItem";
+import SignInButton from "./SignInButton";
+import styled from "styled-components";
+
+// icons
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LibraryMusicOutlinedIcon from "@mui/icons-material/LibraryMusicOutlined";
 import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
 import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
@@ -16,7 +19,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
-import { ButtonLabel, SidebarBtn } from "./SidebarMenuItem";
 
 //#region STYLES
 
@@ -39,19 +41,9 @@ const SignInContainer = styled.div`
 `;
 const SignInText = styled.span`
   display: block;
+  margin-bottom: 0.25rem;
 `;
-const SignInButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: transparent;
-  border: 1px solid var(--call-to-action-color);
-  color: var(--call-to-action-color);
-  padding: 5px 11px;
-  text-transform: uppercase;
-  margin-top: 0.25rem;
-  font-weight: bold;
-`;
+
 const SidebarListTitle = styled.h3`
   padding: 0.75rem 1.5rem 0;
   font-size: inherit;
@@ -92,15 +84,18 @@ const Container = styled.aside`
       }
     }
     ${SidebarBtn} {
+      flex-direction: column;
+      gap: 5px;
       padding: 16px 0 14px;
+    }
+    ${IconContainer} {
+      --size: unset;
     }
     ${ButtonLabel} {
       font-size: 10px;
       margin: 0;
     }
-    ${SidebarBtn} {
-      flex-direction: column;
-    }
+
     ${SignInContainer},${SidebarListTitle} {
       display: none;
     }
@@ -151,10 +146,7 @@ export function Sidebar({ isSidebarMinified }) {
 
       <SignInContainer>
         <SignInText>Sign in to like videos, comment, and subscribe.</SignInText>
-        <SignInButton>
-          <AccountCircleOutlinedIcon />
-          Sign In
-        </SignInButton>
+        <SignInButton />
       </SignInContainer>
 
       <SidebarListTitle>Best Of Cems Tube</SidebarListTitle>

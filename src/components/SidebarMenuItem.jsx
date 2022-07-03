@@ -11,6 +11,9 @@ export const SidebarBtn = styled(Link)`
   outline: none;
   background-color: transparent;
   text-transform: capitalize;
+  &:is(:hover, :focus) {
+    background-color: var(--dark-theme-hover-color);
+  }
 `;
 export const IconContainer = styled.span`
   display: flex;
@@ -28,6 +31,7 @@ export const ButtonLabel = styled.span`
   align-items: center;
   width: var(--size);
   height: var(--size);
+  line-height: 1.4;
   margin: 0 0.5rem;
   user-select: none;
   border: none;
