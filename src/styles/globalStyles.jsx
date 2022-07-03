@@ -159,11 +159,13 @@ a:not([class]) {
 
 //#endregion
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 :root{
+  // layout variables
     --navbar-height:56px;
-
+    --sidebar-width:240px;
+    --sidebar-mini-width:72px;
+    // colors
     --light-theme-background-color: #fff;
     --light-theme-base-color: #000;
     --light-theme-text-color: #212121;
@@ -179,6 +181,10 @@ a:not([class]) {
     --dark-theme-divider-color: #3c3c3c;
 
     --call-to-action-color:#3ea6ff;
+}
+a{
+  color:inherit;
+  text-decoration: none;
 }
 body{
     margin: 0;
