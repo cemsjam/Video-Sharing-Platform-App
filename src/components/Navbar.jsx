@@ -1,5 +1,10 @@
 import styled from "styled-components";
+import SignInButton from "./SignInButton";
+//icons
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import { Link } from "react-router-dom";
 
 const Container = styled.header`
   height: var(--navbar-height);
@@ -8,37 +13,105 @@ const Container = styled.header`
   top: 0;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   background-color: var(--dark-theme-background-color);
 `;
-const Button = styled.button`
+const ItemContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+`;
+const HamburgerButton = styled.button`
   --size: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: var(--size);
   height: var(--size);
+  border-radius: 50%;
   margin: 0 1rem;
   user-select: none;
   border: none;
   outline: none;
   background-color: transparent;
+  &:is(:active) {
+    background-color: var(--dark-theme-hover-color);
+  }
 `;
-const Logo = styled.img`
-  max-width: 100%;
-  display: block;
+const LogoContainer = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -1px;
+  user-select: none;
+  svg {
+    color: #ff0000;
+  }
+`;
+
+const ButtonsContainer = styled.div`
+  padding-right: 2rem;
+  flex-shrink: 0;
+`;
+const SearchBar = styled.div`
+  flex: 0 1 728px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+`;
+const SearchInput = styled.input`
+  flex: 1;
+  height: 100%;
+  padding: 2px 6px;
+  border: 1px solid var(--dark-theme-border-color);
+  border-right: none;
+  background-color: var(--dark-theme-main-content-background-color);
+`;
+const SearchButton = styled.button`
+  width: 64px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--dark-theme-border-color);
+  border: 1px solid var(--dark-theme-border-color);
+  border-left: none;
+  border-radius: 0 2px 2px 0;
 `;
 
 export function Navbar({ isSidebarMinified, setIsSidebarMinified }) {
   return (
     <Container>
-      <Button
-        onClick={() =>
-          setIsSidebarMinified((isSidebarMinified = !isSidebarMinified))
-        }
-      >
-        <MenuOutlinedIcon />
-      </Button>
-      <Logo />
+      <ItemContainer>
+        <HamburgerButton
+          onClick={() =>
+            setIsSidebarMinified((isSidebarMinified = !isSidebarMinified))
+          }
+        >
+          <MenuOutlinedIcon />
+        </HamburgerButton>
+        <LogoContainer to="/">
+          <YouTubeIcon />
+          CemsTube
+        </LogoContainer>
+      </ItemContainer>
+      <SearchBar>
+        <SearchInput
+          placeholder="Search"
+          type="text"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="false"
+          autoCapitalize="none"
+        />
+        <SearchButton title="Search">
+          <SearchOutlinedIcon />
+        </SearchButton>
+      </SearchBar>
+      <ButtonsContainer>
+        <SignInButton />
+      </ButtonsContainer>
     </Container>
   );
 }

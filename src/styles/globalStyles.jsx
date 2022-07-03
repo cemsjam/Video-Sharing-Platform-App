@@ -179,12 +179,17 @@ a:not([class]) {
     --dark-theme-secondary-color: #bcbcbc;
     --dark-theme-disabled-color: #646464;
     --dark-theme-divider-color: #3c3c3c;
-
+    
+    --dark-theme-border-color:#303030;
+    --dark-theme-hover-color:#ffffff1a;
     --call-to-action-color:#3ea6ff;
 }
 a{
   color:inherit;
   text-decoration: none;
+}
+a,button{
+  white-space: nowrap;
 }
 body{
     margin: 0;
