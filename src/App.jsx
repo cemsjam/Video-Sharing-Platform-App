@@ -1,10 +1,10 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { GlobalStyle } from "./styles/globalStyles";
 import { Home } from "./pages/Home";
 import { SignIn } from "./pages/SignIn";
 import { Video } from "./pages/Video";
-
 import { Navbar } from "./components/Navbar";
 import { Sidebar } from "./components/Sidebar";
 
@@ -17,12 +17,16 @@ const MainContent = styled.main`
 `;
 
 function App() {
+  const [isSidebarMinified, setIsSidebarMinified] = useState(false);
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <Navbar />
+      <Navbar
+        isSidebarMinified={isSidebarMinified}
+        setIsSidebarMinified={setIsSidebarMinified}
+      />
       <Container>
-        <Sidebar />
+        <Sidebar isSidebarMinified={isSidebarMinified} />
         <MainContent>
           <Routes>
             <Route path="/">

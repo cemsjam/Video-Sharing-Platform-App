@@ -28,10 +28,14 @@ const Logo = styled.img`
   display: block;
 `;
 
-export function Navbar() {
+export function Navbar({ isSidebarMinified, setIsSidebarMinified }) {
   return (
     <Container>
-      <Button>
+      <Button
+        onClick={() =>
+          setIsSidebarMinified((isSidebarMinified = !isSidebarMinified))
+        }
+      >
         <MenuOutlinedIcon />
       </Button>
       <Logo />

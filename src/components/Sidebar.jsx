@@ -1,59 +1,46 @@
 import styled from "styled-components";
+import SidebarMenuItem from "./SidebarMenuItem";
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-const Container = styled.aside`
-  height: calc(100vh - var(--navbar-height));
-  position: sticky;
-  top: var(--navbar-height);
-  font-size: 0.875rem;
-  width: 240px;
+import LibraryMusicOutlinedIcon from "@mui/icons-material/LibraryMusicOutlined";
+import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
+import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
+import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import LiveTvOutlinedIcon from "@mui/icons-material/LiveTvOutlined";
+import SettingsIcon from "@mui/icons-material/Settings";
+import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
+import { ButtonLabel, SidebarBtn } from "./SidebarMenuItem";
+
+//#region STYLES
+
+const SidebarList = styled.ul`
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--dark-theme-divider-color);
+  &:first-child {
+    padding: 0;
+    padding-bottom: 0.75rem;
+  }
+  &:last-child {
+    border: none;
+  }
 `;
-const SidebarBtn = styled.button`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  user-select: none;
-  border: none;
-  outline: none;
-  background-color: transparent;
-`;
-const IconContainer = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  --size: 40px;
-  width: var(--size);
-  height: var(--size);
-  margin: 0 1rem;
-`;
-const Hr = styled.hr`
-  border-color: var(--dark-theme-divider-color);
-  border-width: 1px;
-  margin: 12px 0;
-`;
-const ButtonLabel = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: var(--size);
-  height: var(--size);
-  margin: 0 0.5rem;
-  user-select: none;
-  border: none;
-  outline: none;
-  background-color: transparent;
+const SidebarListItem = styled.li``;
+
+const SignInContainer = styled.div`
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--dark-theme-divider-color);
 `;
 const SignInText = styled.span`
   display: block;
-  padding: 0 1rem;
-  max-width: 29ch;
 `;
 const SignInButton = styled.button`
-  margin: 0 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -62,57 +49,190 @@ const SignInButton = styled.button`
   color: var(--call-to-action-color);
   padding: 5px 11px;
   text-transform: uppercase;
-  margin-top: 4px;
+  margin-top: 0.25rem;
   font-weight: bold;
 `;
-const SidebarTitle = styled.h3`
-  padding: 0 24px 8px;
+const SidebarListTitle = styled.h3`
+  padding: 0.75rem 1.5rem 0;
   font-size: inherit;
   text-transform: uppercase;
 `;
 
-export function Sidebar() {
+const Container = styled.aside`
+  height: calc(100vh - var(--navbar-height));
+  position: sticky;
+  top: var(--navbar-height);
+  font-size: 0.875rem;
+  width: var(--sidebar-width);
+  overflow-x: hidden;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 16px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 56px;
+    border-radius: 8px;
+    border: 4px solid transparent;
+    background-clip: content-box;
+    background-color: transparent;
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--dark-theme-disabled-color);
+    }
+  }
+  &[data-mini="true"] {
+    width: var(--sidebar-mini-width);
+    ${SidebarList} {
+      border: none;
+      padding: 0;
+      &:nth-child(n + 3) {
+        display: none;
+      }
+    }
+    ${SidebarBtn} {
+      padding: 16px 0 14px;
+    }
+    ${ButtonLabel} {
+      font-size: 10px;
+      margin: 0;
+    }
+    ${SidebarBtn} {
+      flex-direction: column;
+    }
+    ${SignInContainer},${SidebarListTitle} {
+      display: none;
+    }
+  }
+`;
+
+//#endregion
+
+export function Sidebar({ isSidebarMinified }) {
   return (
-    <Container>
-      <SidebarBtn>
-        <IconContainer>
-          <HomeIcon />
-        </IconContainer>
-        <ButtonLabel>Home</ButtonLabel>
-      </SidebarBtn>
-      <SidebarBtn>
-        <IconContainer>
-          <ExploreOutlinedIcon />
-        </IconContainer>
-        <ButtonLabel>Explore</ButtonLabel>
-      </SidebarBtn>
-      <SidebarBtn>
-        <IconContainer>
-          <SubscriptionsOutlinedIcon />
-        </IconContainer>
-        <ButtonLabel>Subscription</ButtonLabel>
-      </SidebarBtn>
-      <Hr />
-      <SidebarBtn>
-        <IconContainer>
-          <VideoLibraryOutlinedIcon />
-        </IconContainer>
-        <ButtonLabel>Library</ButtonLabel>
-      </SidebarBtn>
-      <SidebarBtn>
-        <IconContainer>
-          <HistoryOutlinedIcon />
-        </IconContainer>
-        <ButtonLabel>History</ButtonLabel>
-      </SidebarBtn>
-      <Hr />
-      <SignInText>Sign in to like videos, comment, and subscribe.</SignInText>
-      <SignInButton>
-        <AccountCircleOutlinedIcon />
-        Sign In
-      </SignInButton>
-      <Hr />
-      <SidebarTitle>Best Of Cems Tube</SidebarTitle>
+    <Container data-mini={isSidebarMinified}>
+      <SidebarList>
+        <SidebarListItem>
+          <SidebarMenuItem path="/" icon={<HomeIcon />} text="Home" />
+        </SidebarListItem>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/explore"
+            icon={<ExploreOutlinedIcon />}
+            text="Explore"
+          />
+        </SidebarListItem>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/subscription"
+            icon={<SubscriptionsOutlinedIcon />}
+            text="Subscription"
+          />
+        </SidebarListItem>
+      </SidebarList>
+
+      <SidebarList>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/library"
+            icon={<VideoLibraryOutlinedIcon />}
+            text="Library"
+          />
+        </SidebarListItem>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/history"
+            icon={<HistoryOutlinedIcon />}
+            text="History"
+          />
+        </SidebarListItem>
+      </SidebarList>
+
+      <SignInContainer>
+        <SignInText>Sign in to like videos, comment, and subscribe.</SignInText>
+        <SignInButton>
+          <AccountCircleOutlinedIcon />
+          Sign In
+        </SignInButton>
+      </SignInContainer>
+
+      <SidebarListTitle>Best Of Cems Tube</SidebarListTitle>
+      <SidebarList>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/music"
+            icon={<LibraryMusicOutlinedIcon />}
+            text="music"
+          />
+        </SidebarListItem>
+        <SidebarListItem>
+          {" "}
+          <SidebarMenuItem
+            path="/sports"
+            icon={<SportsBasketballIcon />}
+            text="sports"
+          />
+        </SidebarListItem>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/gaming"
+            icon={<SportsEsportsOutlinedIcon />}
+            text="gaming"
+          />
+        </SidebarListItem>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/movies"
+            icon={<MovieCreationOutlinedIcon />}
+            text="movies"
+          />
+        </SidebarListItem>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/news"
+            icon={<ArticleOutlinedIcon />}
+            text="news"
+          />
+        </SidebarListItem>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/live"
+            icon={<LiveTvOutlinedIcon />}
+            text="live"
+          />
+        </SidebarListItem>
+      </SidebarList>
+      <SidebarList>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/settings"
+            icon={<SettingsIcon />}
+            text="settings"
+          />
+        </SidebarListItem>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/report"
+            icon={<FlagOutlinedIcon />}
+            text="report"
+          />
+        </SidebarListItem>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="/help"
+            icon={<HelpOutlineOutlinedIcon />}
+            text="help"
+          />
+        </SidebarListItem>
+        <SidebarListItem>
+          <SidebarMenuItem
+            path="settings"
+            icon={<SettingsBrightnessOutlinedIcon />}
+            text="light mode"
+          />
+        </SidebarListItem>
+      </SidebarList>
     </Container>
   );
 }
