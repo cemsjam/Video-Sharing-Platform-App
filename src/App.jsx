@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 const MainContent = styled.main`
   flex: 7;
-  background-color: var(--dark-theme-main-content-background-color);
+  background-color: var(--main-content-bg-color);
 `;
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
       />
       <Container>
         <Sidebar isSidebarMinified={isSidebarMinified} />
+
         <MainContent>
           <Routes>
             <Route path="/">

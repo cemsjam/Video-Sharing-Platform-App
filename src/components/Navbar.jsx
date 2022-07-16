@@ -15,7 +15,7 @@ const Container = styled.header`
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  background-color: var(--dark-theme-background-color);
+  background-color: var(--background-color);
 `;
 const ItemContainer = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const HamburgerButton = styled.button`
   outline: none;
   background-color: transparent;
   &:is(:active) {
-    background-color: var(--dark-theme-hover-color);
+    background-color: var(--hover-color);
   }
 `;
 const LogoContainer = styled(Link)`
@@ -45,6 +45,7 @@ const LogoContainer = styled(Link)`
   gap: 0.5rem;
   letter-spacing: -1px;
   user-select: none;
+  font-weight: bold;
   svg {
     color: #ff0000;
   }
@@ -64,9 +65,9 @@ const SearchInput = styled.input`
   flex: 1;
   height: 100%;
   padding: 2px 6px;
-  border: 1px solid var(--dark-theme-border-color);
+  border: 1px solid var(--border-color);
   border-right: none;
-  background-color: var(--dark-theme-main-content-background-color);
+  background-color: var(--main-content-bg-color);
 `;
 const SearchButton = styled.button`
   width: 64px;
@@ -74,8 +75,8 @@ const SearchButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--dark-theme-border-color);
-  border: 1px solid var(--dark-theme-border-color);
+  background-color: var(--border-color);
+  border: 1px solid var(--border-color);
   border-left: none;
   border-radius: 0 2px 2px 0;
 `;

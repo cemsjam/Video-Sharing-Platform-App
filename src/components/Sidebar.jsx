@@ -1,5 +1,10 @@
 import SidebarMenuItem from "./SidebarMenuItem";
-import { ButtonLabel, SidebarBtn, IconContainer } from "./SidebarMenuItem";
+import {
+  ButtonLabel,
+  SidebarBtn,
+  SidebarLinkBtn,
+  IconContainer,
+} from "./SidebarMenuItem";
 import SignInButton from "./SignInButton";
 import styled from "styled-components";
 
@@ -19,12 +24,13 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
-
+import { useState } from "react";
+import { breakpoint } from "../utils/breakpoints";
 //#region STYLES
 
 const SidebarList = styled.ul`
   padding: 0.5rem 0;
-  border-bottom: 1px solid var(--dark-theme-divider-color);
+  border-bottom: 1px solid var(--divider-color);
   &:first-child {
     padding: 0;
     padding-bottom: 0.75rem;
@@ -37,7 +43,7 @@ const SidebarListItem = styled.li``;
 
 const SignInContainer = styled.div`
   padding: 1rem 2rem;
-  border-bottom: 1px solid var(--dark-theme-divider-color);
+  border-bottom: 1px solid var(--divider-color);
 `;
 const SignInText = styled.span`
   display: block;
@@ -58,6 +64,7 @@ const Container = styled.aside`
   width: var(--sidebar-width);
   overflow-x: hidden;
   overflow-y: auto;
+
   &::-webkit-scrollbar {
     width: 16px;
     background: transparent;
@@ -71,9 +78,10 @@ const Container = styled.aside`
   }
   &:hover {
     &::-webkit-scrollbar-thumb {
-      background-color: var(--dark-theme-disabled-color);
+      background-color: var(--disabled-color);
     }
   }
+
   &[data-mini="true"] {
     width: var(--sidebar-mini-width);
     ${SidebarList} {
@@ -83,7 +91,7 @@ const Container = styled.aside`
         display: none;
       }
     }
-    ${SidebarBtn} {
+    ${SidebarBtn},${SidebarLinkBtn} {
       flex-direction: column;
       gap: 5px;
       padding: 16px 0 14px;
@@ -105,6 +113,8 @@ const Container = styled.aside`
 //#endregion
 
 export function Sidebar({ isSidebarMinified }) {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   return (
     <Container data-mini={isSidebarMinified}>
       <SidebarList>
@@ -219,9 +229,10 @@ export function Sidebar({ isSidebarMinified }) {
         </SidebarListItem>
         <SidebarListItem>
           <SidebarMenuItem
-            path="settings"
+            type="button"
+            isDarkMode={isDarkMode}
+            setIsDarkMode={setIsDarkMode}
             icon={<SettingsBrightnessOutlinedIcon />}
-            text="light mode"
           />
         </SidebarListItem>
       </SidebarList>
