@@ -6,7 +6,7 @@ import {
   IconContainer,
 } from "./SidebarMenuItem";
 import SignInButton from "./SignInButton";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 // icons
 import HomeIcon from "@mui/icons-material/Home";
@@ -64,6 +64,16 @@ const Container = styled.aside`
   width: var(--sidebar-width);
   overflow-x: hidden;
   overflow-y: auto;
+  z-index: var(--sidebar-zindex);
+  ${(props) =>
+    props.type === "slideIn" &&
+    css`
+      position: fixed;
+      transform: translateX(-100%);
+      background-color: var(--background-color);
+      transition: var(--transition-duration);
+      visibility: hidden;
+    `}
 
   &::-webkit-scrollbar {
     width: 16px;
@@ -81,7 +91,11 @@ const Container = styled.aside`
       background-color: var(--disabled-color);
     }
   }
-
+  &[data-mini] {
+    @media ${breakpoint.downXs} {
+      display: none;
+    }
+  }
   &[data-mini="true"] {
     width: var(--sidebar-mini-width);
     ${SidebarList} {
@@ -112,11 +126,11 @@ const Container = styled.aside`
 
 //#endregion
 
-export function Sidebar({ isSidebarMinified }) {
+export function Sidebar({ isSidebarMinified, type, isSideBarOpen }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   return (
-    <Container data-mini={isSidebarMinified}>
+    <Container type={type} data-mini={isSidebarMinified}>
       <SidebarList>
         <SidebarListItem>
           <SidebarMenuItem path="/" icon={<HomeIcon />} text="Home" />

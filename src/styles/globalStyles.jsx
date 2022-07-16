@@ -204,6 +204,8 @@ a:not([class]) {
     --call-to-action-color:#3ea6ff;
 
     --transition-duration: 250ms;
+    --navbar-zindex:700;
+    --sidebar-zindex:700;
 }
 html.light{
   --background-color:var(--light-theme-background-color);
@@ -231,7 +233,6 @@ body{
   -moz-osx-font-smoothing: grayscale;
   background-color:var(--background-color);
   color:var(--text-color);
-  padding-top: var(--navbar-height);
 }
 
 `;

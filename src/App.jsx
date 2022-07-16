@@ -18,15 +18,20 @@ const MainContent = styled.main`
 
 function App() {
   const [isSidebarMinified, setIsSidebarMinified] = useState(false);
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+
   return (
     <BrowserRouter>
       <GlobalStyle />
       <Navbar
         isSidebarMinified={isSidebarMinified}
+        isSideBarOpen={isSideBarOpen}
+        setIsSideBarOpen={setIsSideBarOpen}
         setIsSidebarMinified={setIsSidebarMinified}
       />
       <Container>
         <Sidebar isSidebarMinified={isSidebarMinified} />
+        <Sidebar type="slideIn" isSideBarOpen={isSideBarOpen} />
 
         <MainContent>
           <Routes>
