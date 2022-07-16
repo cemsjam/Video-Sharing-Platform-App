@@ -168,36 +168,69 @@ a:not([class]) {
     // colors
     --light-theme-background-color: #fff;
     --light-theme-base-color: #000;
-    --light-theme-text-color: #212121;
-    --light-theme-secondary-color: #737373;
+    --light-theme-text-color: #030303;
+   // --light-theme-secondary-color: #737373;
+    --light-theme-secondary-color: #606060;
+
     --light-theme-disabled-color: #9b9b9b;
     --light-theme-divider-color: #dbdbdb;
+    --light-theme-hover-color:#000000d;
+    --light-theme-border-color:#0000001a;
+    --light-theme-main-content-background-color:#f9f9f9;
+    
+
     --dark-theme-background-color: #212121;
     --dark-theme-base-color: #fff;
     --dark-theme-text-color: #fff;
     --dark-theme-main-content-background-color:#181818;
-    --dark-theme-secondary-color: #bcbcbc;
+    // --dark-theme-secondary-color: #bcbcbc;
+    --dark-theme-secondary-color:#aaa;
     --dark-theme-disabled-color: #646464;
     --dark-theme-divider-color: #3c3c3c;
-    
-    --dark-theme-border-color:#303030;
     --dark-theme-hover-color:#ffffff1a;
+    --dark-theme-border-color:#303030;
+    
+    --background-color:var(--dark-theme-background-color);
+    --main-content-bg-color:var(--dark-theme-main-content-background-color);
+    --base-color:var(--dark-theme-base-color);
+    --text-color:var(--dark-theme-text-color);
+    --secondary-color:var(--dark-theme-secondary-color);
+    --disabled-color:var(--dark-theme-disabled-color);
+    --divider-color:var(--dark-theme-divider-color);
+    --hover-color:var(--dark-theme-hover-color);
+    --border-color:var(--dark-theme-border-color);
+   
+    
     --call-to-action-color:#3ea6ff;
+
+    --transition-duration: 250ms;
+}
+html.light{
+  --background-color:var(--light-theme-background-color);
+  --main-content-bg-color:var(--light-theme-main-content-background-color);
+    --base-color:var(--light-theme-base-color);
+    --text-color:var(--light-theme-text-color);
+    --secondary-color:var(--light-theme-secondary-color);
+    --disabled-color:var(--light-theme-disabled-color);
+    --divider-color:var(--light-theme-divider-color);
+    --hover-color:var(--light-theme-hover-color);
+    --border-color:var(--light-theme-border-color);
+    
+
+
 }
 a{
   color:inherit;
   text-decoration: none;
 }
-a,button{
-  white-space: nowrap;
-}
+
 body{
     margin: 0;
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color:var(--dark-theme-background-color);
-  color:var(--dark-theme-text-color);
+  background-color:var(--background-color);
+  color:var(--text-color);
   padding-top: var(--navbar-height);
 }
 
