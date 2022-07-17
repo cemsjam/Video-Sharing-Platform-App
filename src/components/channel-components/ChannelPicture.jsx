@@ -10,7 +10,7 @@ const CustomLink = styled(Link)`
   cursor: pointer;
 `;
 const Image = styled.img`
-  --size: ${(props) => (props.size === "lg" ? "3rem" : "2rem")};
+  --size: ${(props) => props.size};
   width: var(--size);
   height: var(--size);
   flex-shrink: 0;

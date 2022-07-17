@@ -9,7 +9,7 @@ const ChannelOwner = styled(Link)`
   color: ${(props) =>
     props.type === "primary" ? "var(--text-color)" : "var(--secondary-color)"};
   cursor: pointer;
-
+  font-weight: ${(props) => (props.type === "primary" ? "500" : 400)};
   &:is(:hover, :focus) {
     color: var(--text-color);
   }

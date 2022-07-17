@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import ChannelPicture from "./channel-components/ChannelPicture";
 import ChannelName from "./channel-components/ChannelName";
+import UploadedTime from "./channel-components/UploadedTime";
 const Columns = styled.div`
   flex: 1 1 100%;
   max-width: 100%;
@@ -78,7 +79,6 @@ const Views = styled.span`
     margin: 0 0.25rem;
   }
 `;
-const UploadedTime = styled.span``;
 
 function VideoCard({ type }) {
   return (
@@ -97,6 +97,7 @@ function VideoCard({ type }) {
               img="https://yt3.ggpht.com/ytc/AKedOLSDVGzdBliH-ZI7ZxdKcW5QfLv-gmwXgtJd0aaS=s68-c-k-c0x00ffffff-no-rj"
               alt="channel image"
               type="link"
+              size="2rem"
             />
           )}
 
@@ -113,7 +114,7 @@ function VideoCard({ type }) {
             />
 
             <Views>3.8K views</Views>
-            <UploadedTime>21 hours ago</UploadedTime>
+            <UploadedTime text="21 hours ago" />
           </InfoContainer>
         </Body>
       </Card>

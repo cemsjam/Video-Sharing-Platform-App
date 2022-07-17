@@ -10,7 +10,10 @@ import VideoActionButton from "../components/buttons/VideoActionButton";
 import ChannelPicture from "../components/channel-components/ChannelPicture";
 import ChannelName from "../components/channel-components/ChannelName";
 import ChannelSubscribers from "../components/channel-components/ChannelSubscribers";
-import SubscribeButton from "../components/buttons/SubscribeButton";
+import WidgetButton from "../components/buttons/WidgetButton";
+import AddComment from "../components/AddComment";
+import Comments from "../components/Comments";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -97,6 +100,7 @@ const CommentCountContainer = styled.div`
   display: flex;
   gap: 0.25rem;
   text-transform: capitalize;
+  margin-bottom: 1.5rem;
 `;
 
 export function Video() {
@@ -147,7 +151,7 @@ export function Video() {
               path="/channel-name"
               img="https://yt3.ggpht.com/ytc/AKedOLSDVGzdBliH-ZI7ZxdKcW5QfLv-gmwXgtJd0aaS=s68-c-k-c0x00ffffff-no-rj"
               alt="channel image"
-              size="lg"
+              size="3rem"
               type="link"
             />
             <Middle>
@@ -158,7 +162,11 @@ export function Video() {
               />
               <ChannelSubscribers count="518k" />
             </Middle>
-            <SubscribeButton />
+            <WidgetButton
+              text="subscribe"
+              foreground="var(--subscribe-button-color)"
+              background="var(--subscribe-button-bg)"
+            />
           </DescriptionContainer>
           <VideoDescription>
             Video uploading app design using React and Styled Components.
@@ -170,6 +178,8 @@ export function Video() {
           <span>5</span>
           <span>Comments</span>
         </CommentCountContainer>
+        <AddComment />
+        <Comments />
       </Content>
       <Recommandations>
         <VideoCard type="sm" />
