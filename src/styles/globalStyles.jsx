@@ -199,7 +199,8 @@ a:not([class]) {
     --border-color:var(--dark-theme-border-color);
    
     
-    --sign-in-button-color:#3ea6ff;
+    --sign-in-button-accent-color:#3ea6ff;
+    --sign-in-button-text-color:#fff;
     --subscribe-button-bg:#c00;
     --subscribe-button-color:#fff;
     --comment-button-bg:#065fd4;
