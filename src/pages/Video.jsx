@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import { breakpoint } from "../utils/breakpoints";
 import VideoCard from "../components/VideoCard";
@@ -5,7 +6,11 @@ import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
-import VideoActionButton from "../components/VideoActionButton";
+import VideoActionButton from "../components/buttons/VideoActionButton";
+import ChannelPicture from "../components/channel-components/ChannelPicture";
+import ChannelName from "../components/channel-components/ChannelName";
+import ChannelSubscribers from "../components/channel-components/ChannelSubscribers";
+import SubscribeButton from "../components/buttons/SubscribeButton";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -25,7 +30,7 @@ const Content = styled.div`
 `;
 const Recommandations = styled.div`
   @media ${breakpoint.upLg} {
-    flex: 2 0 20%;
+    flex: 1.5 0 15%;
     padding: 1.5rem;
     padding-left: 0;
   }
@@ -65,6 +70,33 @@ const Views = styled.span`
 `;
 const Date = styled.span`
   color: var(--secondary-color);
+`;
+const DescriptionWrapper = styled.div`
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+`;
+const DescriptionContainer = styled.div`
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+`;
+const Middle = styled.div`
+  flex: 1;
+`;
+const VideoDescription = styled.p`
+  margin: 0 auto;
+  font-size: 0.875rem;
+  color: var(--text-color);
+  margin-left: 3.5rem;
+`;
+const CommentCountContainer = styled.div`
+  display: flex;
+  gap: 0.25rem;
+  text-transform: capitalize;
 `;
 
 export function Video() {
@@ -109,6 +141,35 @@ export function Video() {
             </Right>
           </InfoContainer>
         </InfoWrapper>
+        <DescriptionWrapper>
+          <DescriptionContainer>
+            <ChannelPicture
+              path="/channel-name"
+              img="https://yt3.ggpht.com/ytc/AKedOLSDVGzdBliH-ZI7ZxdKcW5QfLv-gmwXgtJd0aaS=s68-c-k-c0x00ffffff-no-rj"
+              alt="channel image"
+              size="lg"
+              type="link"
+            />
+            <Middle>
+              <ChannelName
+                type="primary"
+                label="hOlyhexOr"
+                path="/hOlyhexOr-channel"
+              />
+              <ChannelSubscribers count="518k" />
+            </Middle>
+            <SubscribeButton />
+          </DescriptionContainer>
+          <VideoDescription>
+            Video uploading app design using React and Styled Components.
+            Youtube clone design with hooks and functional component. React
+            video player.
+          </VideoDescription>
+        </DescriptionWrapper>
+        <CommentCountContainer>
+          <span>5</span>
+          <span>Comments</span>
+        </CommentCountContainer>
       </Content>
       <Recommandations>
         <VideoCard type="sm" />

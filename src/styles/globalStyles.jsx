@@ -201,7 +201,9 @@ a:not([class]) {
     --border-color:var(--dark-theme-border-color);
    
     
-    --call-to-action-color:#3ea6ff;
+    --sign-in-button-color:#3ea6ff;
+    --subscribe-button-bg:#c00;
+    --subscribe-button-color:#fff;
 
     --transition-duration: 250ms;
     --navbar-zindex:700;

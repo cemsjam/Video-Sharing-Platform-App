@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import VideoCard from "../components/VideoCard";
 const Container = styled.div`

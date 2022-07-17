@@ -2,7 +2,8 @@ import React from "react";
 import { breakpoint } from "../utils/breakpoints";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
-
+import ChannelPicture from "./channel-components/ChannelPicture";
+import ChannelName from "./channel-components/ChannelName";
 const Columns = styled.div`
   flex: 1 1 100%;
   max-width: 100%;
@@ -47,15 +48,7 @@ const Body = styled.div`
   margin-top: 0.75rem;
   user-select: none;
 `;
-const ChannelPic = styled(Link)`
-  --size: 2rem;
-  width: var(--size);
-  height: var(--size);
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-  background-color: var(--secondary-color);
-`;
+
 const InfoContainer = styled.div`
   color: var(--secondary-color);
   font-size: 0.75rem;
@@ -76,15 +69,7 @@ const CardHeading = styled.h2`
   text-overflow: ellipsis;
   white-space: normal;
 `;
-const ChannelOwner = styled(Link)`
-  display: block;
-  transition: var(--transition-duration);
-  width: fit-content;
-  cursor: pointer;
-  &:is(:hover, :focus) {
-    color: var(--text-color);
-  }
-`;
+
 const Views = styled.span`
   color: var(--secondary-color);
   font-size: 0.75rem;
@@ -106,24 +91,27 @@ function VideoCard({ type }) {
           />
         </Media>
         <Body>
-          {!type === "sm" && (
-            <ChannelPic to="/channel-name">
-              <img
-                src="https://yt3.ggpht.com/ytc/AKedOLSDVGzdBliH-ZI7ZxdKcW5QfLv-gmwXgtJd0aaS=s68-c-k-c0x00ffffff-no-rj"
-                alt=""
-              />
-            </ChannelPic>
+          {!type && (
+            <ChannelPicture
+              path="/channel-name"
+              img="https://yt3.ggpht.com/ytc/AKedOLSDVGzdBliH-ZI7ZxdKcW5QfLv-gmwXgtJd0aaS=s68-c-k-c0x00ffffff-no-rj"
+              alt="channel image"
+              type="link"
+            />
           )}
+
           <InfoContainer>
             <Link to="/video">
               <CardHeading>
                 TOP-15 Plays of DPC Summer Tour 3 Dota 2
               </CardHeading>
             </Link>
+            <ChannelName
+              size="sm"
+              label="hOlyhexOr"
+              path="/hOlyhexOr-channel"
+            />
 
-            <ChannelOwner title="hOlyhexOr" to="/owner">
-              hOlyhexOr
-            </ChannelOwner>
             <Views>3.8K views</Views>
             <UploadedTime>21 hours ago</UploadedTime>
           </InfoContainer>

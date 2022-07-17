@@ -1,3 +1,5 @@
+import React from "react";
+
 import styled from "styled-components";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -5,8 +7,8 @@ import { GlobalStyle } from "./styles/globalStyles";
 import { Home } from "./pages/Home";
 import { SignIn } from "./pages/SignIn";
 import { Video } from "./pages/Video";
-import { Navbar } from "./components/Navbar";
-import { Sidebar } from "./components/Sidebar";
+import { Navbar } from "./components/layout/Navbar";
+import { Sidebar } from "./components/layout/Sidebar";
 
 const Container = styled.div`
   display: flex;
