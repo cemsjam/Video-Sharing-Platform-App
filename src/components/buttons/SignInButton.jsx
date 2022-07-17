@@ -7,8 +7,8 @@ export const Button = styled.button`
   align-items: center;
   gap: 0.5rem;
   background-color: transparent;
-  border: 1px solid var(--call-to-action-color);
-  color: var(--call-to-action-color);
+  border: 1px solid var(--sign-in-button-color);
+  color: var(--sign-in-button-color);
   padding: 5px 11px;
   text-transform: uppercase;
   font-weight: 500;

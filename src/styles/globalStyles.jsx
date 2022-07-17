@@ -169,7 +169,6 @@ a:not([class]) {
     --light-theme-background-color: #fff;
     --light-theme-base-color: #000;
     --light-theme-text-color: #030303;
-   // --light-theme-secondary-color: #737373;
     --light-theme-secondary-color: #606060;
 
     --light-theme-disabled-color: #9b9b9b;
@@ -183,7 +182,6 @@ a:not([class]) {
     --dark-theme-base-color: #fff;
     --dark-theme-text-color: #fff;
     --dark-theme-main-content-background-color:#181818;
-    // --dark-theme-secondary-color: #bcbcbc;
     --dark-theme-secondary-color:#aaa;
     --dark-theme-disabled-color: #646464;
     --dark-theme-divider-color: #3c3c3c;
@@ -201,8 +199,11 @@ a:not([class]) {
     --border-color:var(--dark-theme-border-color);
    
     
-    --call-to-action-color:#3ea6ff;
-
+    --sign-in-button-color:#3ea6ff;
+    --subscribe-button-bg:#c00;
+    --subscribe-button-color:#fff;
+    --comment-button-bg:#065fd4;
+    --comment-button-inactive-bg:var(--divider-color);
     --transition-duration: 250ms;
     --navbar-zindex:700;
     --sidebar-zindex:700;

@@ -1,3 +1,5 @@
+import React from "react";
+
 import SidebarMenuItem from "./SidebarMenuItem";
 import {
   ButtonLabel,
@@ -5,7 +7,7 @@ import {
   SidebarLinkBtn,
   IconContainer,
 } from "./SidebarMenuItem";
-import SignInButton from "./SignInButton";
+import SignInButton from "../buttons/SignInButton";
 import styled, { css } from "styled-components";
 
 // icons
@@ -25,7 +27,7 @@ import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
 import { useState } from "react";
-import { breakpoint } from "../utils/breakpoints";
+import { breakpoint } from "../../utils/breakpoints";
 //#region STYLES
 
 const SidebarList = styled.ul`

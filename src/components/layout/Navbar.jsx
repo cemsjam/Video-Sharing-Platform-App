@@ -1,5 +1,7 @@
+import React from "react";
+
 import styled from "styled-components";
-import SignInButton from "./SignInButton";
+import SignInButton from "../buttons/SignInButton";
 //icons
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
