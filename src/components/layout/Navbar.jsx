@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
-import SignInButton from "../buttons/SignInButton";
+import styled from 'styled-components';
+import SignInButton from '../buttons/SignInButton';
 //icons
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import { Link } from "react-router-dom";
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import { Link } from 'react-router-dom';
 
 const Container = styled.header`
   height: var(--navbar-height);
@@ -25,6 +25,7 @@ const ItemContainer = styled.div`
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  width: var(--sidebar-width);
 `;
 const HamburgerButton = styled.button`
   --size: 40px;
@@ -85,15 +86,30 @@ const SearchButton = styled.button`
   border-radius: 0 2px 2px 0;
 `;
 
-export function Navbar({ isSidebarMinified, setIsSidebarMinified }) {
+export function Navbar({
+  isSidebarMinified,
+  setIsSidebarMinified,
+  isDesktopScreen,
+  isSideBarOpen,
+  setIsSideBarOpen
+}) {
+  const handleClick = () => {
+    if (isDesktopScreen) {
+      setIsSidebarMinified(!isSidebarMinified);
+      return;
+    } else if (!isDesktopScreen) {
+      setIsSideBarOpen(!isSideBarOpen);
+      console.log(isSideBarOpen);
+      document.body.classList.toggle('openOverlay');
+      console.log(isSideBarOpen);
+
+      return;
+    }
+  };
   return (
     <Container>
       <ItemContainer>
-        <HamburgerButton
-          onClick={() =>
-            setIsSidebarMinified((isSidebarMinified = !isSidebarMinified))
-          }
-        >
+        <HamburgerButton onClick={handleClick}>
           <MenuOutlinedIcon />
         </HamburgerButton>
         <LogoContainer to="/">

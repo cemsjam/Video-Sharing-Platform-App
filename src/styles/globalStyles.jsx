@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
 //#region RESETTER
@@ -206,6 +206,7 @@ a:not([class]) {
     --comment-button-bg:#065fd4;
     --comment-button-inactive-bg:var(--divider-color);
     --transition-duration: 250ms;
+    
     --navbar-zindex:700;
     --sidebar-zindex:700;
 }
@@ -235,6 +236,27 @@ body{
   -moz-osx-font-smoothing: grayscale;
   background-color:var(--background-color);
   color:var(--text-color);
+  overflow-x:hidden;
+}
+body::after{
+  content: '';
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index:10;
+  visibility:hidden;
+  opacity:0;
+}
+body.openOverlay::after{
+  visibility: visible;
+  opacity:1;
+}
+body.openOverlaySidebar::after{
+  visibility: visible;
+  opacity:1;
 }
 
 `;

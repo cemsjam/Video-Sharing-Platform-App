@@ -1,6 +1,7 @@
+import styled from "styled-components";
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { breakpoint } from "../utils/breakpoints";
 const Container = styled.div`
   height: 100%;
   display: flex;
@@ -10,7 +11,11 @@ const Container = styled.div`
 const FormWrapper = styled.div`
   max-width: 500px;
   width: 100%;
-  padding: 5rem;
+  padding: 4rem 2rem;
+  margin: 0 1rem;
+  @media ${breakpoint.upMd} {
+    padding: 5rem;
+  }
   background-color: var(--background-color);
   border-radius: 3px;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -106,7 +111,6 @@ export function SignIn() {
               id="password"
             />
           </InputRow>
-
           <SubmitButton>Sign In</SubmitButton>
         </Form>
         <NoAccountButton to="/signup">Don't have an account?</NoAccountButton>

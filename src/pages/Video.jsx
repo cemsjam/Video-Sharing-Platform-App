@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "styled-components";
+import React from "react";
 import { breakpoint } from "../utils/breakpoints";
 import VideoCard from "../components/VideoCard";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
