@@ -1,14 +1,14 @@
-import React from "react";
-
-import styled from "styled-components";
-import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { GlobalStyle } from "./styles/globalStyles";
-import { Home } from "./pages/Home";
-import { SignIn, SignUp } from "./pages/SignIn";
-import { Video } from "./pages/Video";
-import { Navbar } from "./components/layout/Navbar";
-import { Sidebar } from "./components/layout/Sidebar";
+import styled from 'styled-components';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { breakpoint } from './utils/breakpoints';
+import { GlobalStyle } from './styles/globalStyles';
+import { Home } from './pages/Home';
+import { SignIn, SignUp } from './pages/SignIn';
+import { Video } from './pages/Video';
+import { Navbar } from './components/layout/Navbar';
+import { Sidebar } from './components/layout/Sidebar';
 
 const Container = styled.div`
   display: flex;
@@ -16,17 +16,40 @@ const Container = styled.div`
 const MainContent = styled.main`
   flex: 7;
   background-color: var(--main-content-bg-color);
+  min-height: calc(100vh - var(--navbar-height));
 `;
 // TODO implement mobile version of NAV
 // TODO implement mobile version of SIDEBAR
 function App() {
-  const [isSidebarMinified, setIsSidebarMinified] = useState(false);
+  const [isDesktopScreen, setIsDesktopScreen] = useState(
+    window.matchMedia(`${breakpoint.upXl}`).matches
+  );
+  const [isSidebarMinified, setIsSidebarMinified] = useState(!isDesktopScreen);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+
+  useEffect(() => {
+    let mq = window.matchMedia(`${breakpoint.upXl}`);
+    const handleMqChange = e => {
+      setIsDesktopScreen(e.matches);
+      if (!e.matches) {
+        setIsSidebarMinified(true);
+        return;
+      } else if (isDesktopScreen) {
+        if (isSideBarOpen) setIsSideBarOpen(false);
+      }
+      return;
+    };
+    mq.addEventListener('change', handleMqChange);
+
+    return () => mq.removeEventListener('change', handleMqChange);
+  }, []);
 
   return (
     <BrowserRouter>
       <GlobalStyle />
+
       <Navbar
+        isDesktopScreen={isDesktopScreen}
         isSidebarMinified={isSidebarMinified}
         isSideBarOpen={isSideBarOpen}
         setIsSideBarOpen={setIsSideBarOpen}
@@ -35,7 +58,9 @@ function App() {
 
       <Container>
         <Sidebar isSidebarMinified={isSidebarMinified} />
-        <Sidebar type="slideIn" isSideBarOpen={isSideBarOpen} />
+        {!isDesktopScreen && (
+          <Sidebar type="slideIn" isSideBarOpen={isSideBarOpen} />
+        )}
         <MainContent>
           <Routes>
             <Route path="/">

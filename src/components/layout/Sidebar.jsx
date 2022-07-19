@@ -1,33 +1,33 @@
-import React from "react";
+import React from 'react';
 
-import SidebarMenuItem from "./SidebarMenuItem";
+import SidebarMenuItem from './SidebarMenuItem';
 import {
   ButtonLabel,
   SidebarBtn,
   SidebarLinkBtn,
-  IconContainer,
-} from "./SidebarMenuItem";
-import SignInButton from "../buttons/SignInButton";
-import styled, { css } from "styled-components";
+  IconContainer
+} from './SidebarMenuItem';
+import SignInButton from '../buttons/SignInButton';
+import styled, { css } from 'styled-components';
 
 // icons
-import HomeIcon from "@mui/icons-material/Home";
-import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
-import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
-import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined";
-import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
-import LibraryMusicOutlinedIcon from "@mui/icons-material/LibraryMusicOutlined";
-import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
-import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
-import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined";
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import LiveTvOutlinedIcon from "@mui/icons-material/LiveTvOutlined";
-import SettingsIcon from "@mui/icons-material/Settings";
-import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
-import { useState } from "react";
-import { breakpoint } from "../../utils/breakpoints";
+import HomeIcon from '@mui/icons-material/Home';
+import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
+import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
+import VideoLibraryOutlinedIcon from '@mui/icons-material/VideoLibraryOutlined';
+import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
+import LibraryMusicOutlinedIcon from '@mui/icons-material/LibraryMusicOutlined';
+import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
+import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import MovieCreationOutlinedIcon from '@mui/icons-material/MovieCreationOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import LiveTvOutlinedIcon from '@mui/icons-material/LiveTvOutlined';
+import SettingsIcon from '@mui/icons-material/Settings';
+import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import SettingsBrightnessOutlinedIcon from '@mui/icons-material/SettingsBrightnessOutlined';
+import { useState } from 'react';
+import { breakpoint } from '../../utils/breakpoints';
 //#region STYLES
 
 const SidebarList = styled.ul`
@@ -67,8 +67,8 @@ const Container = styled.aside`
   overflow-x: hidden;
   overflow-y: auto;
   z-index: var(--sidebar-zindex);
-  ${(props) =>
-    props.type === "slideIn" &&
+  ${props =>
+    props.type === 'slideIn' &&
     css`
       position: fixed;
       transform: translateX(-100%);
@@ -76,6 +76,11 @@ const Container = styled.aside`
       transition: var(--transition-duration);
       visibility: hidden;
     `}
+   
+    &.active{
+      visibility:visible;
+      transform:translateX(0);
+    }
 
   &::-webkit-scrollbar {
     width: 16px;
@@ -132,7 +137,11 @@ export function Sidebar({ isSidebarMinified, type, isSideBarOpen }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   return (
-    <Container type={type} data-mini={isSidebarMinified}>
+    <Container
+      type={type}
+      className={isSideBarOpen ? 'active' : null}
+      data-mini={isSidebarMinified}
+    >
       <SidebarList>
         <SidebarListItem>
           <SidebarMenuItem path="/" icon={<HomeIcon />} text="Home" />
@@ -185,7 +194,7 @@ export function Sidebar({ isSidebarMinified, type, isSideBarOpen }) {
           />
         </SidebarListItem>
         <SidebarListItem>
-          {" "}
+          {' '}
           <SidebarMenuItem
             path="/sports"
             icon={<SportsBasketballIcon />}
