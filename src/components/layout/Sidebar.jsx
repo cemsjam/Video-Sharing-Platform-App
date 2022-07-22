@@ -132,23 +132,7 @@ const Container = styled.aside`
     }
   }
 `;
-const Backdrop = styled.div`
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10;
-  visibility: hidden;
-  opacity: 0;
-  z-index: var(--sidebar-backdrop-zindex);
-  transition:var(--transition-duration) &[data-visible='true'] {
-    visibility: visible;
-    opacity: 1;
-  }
-`;
+
 //#endregion
 
 export function Sidebar({
@@ -169,7 +153,6 @@ export function Sidebar({
     >
       {type === 'slideIn' ? (
         <>
-          <Backdrop data-visible={isSideBarOpen ? true : false} />{' '}
           <ToggleMenu handleClick={handleClick} type="header" />
         </>
       ) : null}
