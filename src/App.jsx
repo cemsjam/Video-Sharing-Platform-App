@@ -30,14 +30,13 @@ function App() {
   useEffect(() => {
     let mq = window.matchMedia(`${breakpoint.upXl}`);
     const handleMqChange = e => {
-      setIsDesktopScreen(e.matches);
       if (!e.matches) {
         setIsSidebarMinified(true);
-        return;
-      } else if (isDesktopScreen) {
-        if (isSideBarOpen) setIsSideBarOpen(false);
+      } else if (e.matches) {
+        document.body.removeAttribute('overlay');
+        setIsSideBarOpen(false);
       }
-      return;
+      setIsDesktopScreen(e.matches);
     };
     mq.addEventListener('change', handleMqChange);
 
@@ -59,7 +58,11 @@ function App() {
       <Container>
         <Sidebar isSidebarMinified={isSidebarMinified} />
         {!isDesktopScreen && (
-          <Sidebar type="slideIn" isSideBarOpen={isSideBarOpen} />
+          <Sidebar
+            type="slideIn"
+            isSideBarOpen={isSideBarOpen}
+            setIsSideBarOpen={setIsSideBarOpen}
+          />
         )}
         <MainContent>
           <Routes>
