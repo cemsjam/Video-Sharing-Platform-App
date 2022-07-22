@@ -165,6 +165,7 @@ a:not([class]) {
     --navbar-height:56px;
     --sidebar-width:240px;
     --sidebar-mini-width:72px;
+    --main-content-container-max-width:109.3rem;
     // colors
     --light-theme-background-color: #fff;
     --light-theme-base-color: #000;
@@ -208,7 +209,7 @@ a:not([class]) {
     --transition-duration: 250ms;
     
     --navbar-zindex:900;
-    --overlay-zindex:1000;
+    --sidebar-backdrop-zindex:1000;
     --sidebar-zindex:1100;
 }
 html.light{
@@ -239,23 +240,7 @@ body{
   color:var(--text-color);
   overflow-x:hidden;
 }
-body::after{
-  content: '';
-  position: absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color: rgba(0,0,0,0.5);
-  z-index:10;
-  visibility:hidden;
-  opacity:0;
-  z-index:var(--overlay-zindex);
-}
-body[overlay]::after{
-  visibility: visible;
-  opacity:1;
-}
+
 
 
 `;
