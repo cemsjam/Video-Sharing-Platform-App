@@ -28,14 +28,14 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import SettingsBrightnessOutlinedIcon from '@mui/icons-material/SettingsBrightnessOutlined';
 import { useState } from 'react';
 import { breakpoint } from '../../utils/breakpoints';
+import ToggleMenu from '../ToggleMenu';
 //#region STYLES
 
 const SidebarList = styled.ul`
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--divider-color);
-  &:first-child {
-    padding: 0;
-    padding-bottom: 0.75rem;
+  &:first-of-type {
+    padding-top: 0;
   }
   &:last-child {
     border: none;
@@ -75,6 +75,8 @@ const Container = styled.aside`
       background-color: var(--background-color);
       transition: var(--transition-duration);
       visibility: hidden;
+      height: 100vh;
+      top: 0;
     `}
    
     &.active{
@@ -133,15 +135,26 @@ const Container = styled.aside`
 
 //#endregion
 
-export function Sidebar({ isSidebarMinified, type, isSideBarOpen }) {
+export function Sidebar({
+  isSidebarMinified,
+  type,
+  isSideBarOpen,
+  setIsSideBarOpen
+}) {
   const [isDarkMode, setIsDarkMode] = useState(false);
-
+  const handleClick = () => {
+    setIsSideBarOpen(false);
+    document.body.removeAttribute('overlay');
+  };
   return (
     <Container
       type={type}
       className={isSideBarOpen ? 'active' : null}
       data-mini={isSidebarMinified}
     >
+      {type === 'slideIn' ? (
+        <ToggleMenu handleClick={handleClick} type="header" />
+      ) : null}
       <SidebarList>
         <SidebarListItem>
           <SidebarMenuItem path="/" icon={<HomeIcon />} text="Home" />

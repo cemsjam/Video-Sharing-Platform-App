@@ -207,8 +207,9 @@ a:not([class]) {
     --comment-button-inactive-bg:var(--divider-color);
     --transition-duration: 250ms;
     
-    --navbar-zindex:700;
-    --sidebar-zindex:700;
+    --navbar-zindex:900;
+    --overlay-zindex:1000;
+    --sidebar-zindex:1100;
 }
 html.light{
   --background-color:var(--light-theme-background-color);
@@ -249,14 +250,12 @@ body::after{
   z-index:10;
   visibility:hidden;
   opacity:0;
+  z-index:var(--overlay-zindex);
 }
-body.openOverlay::after{
+body[overlay]::after{
   visibility: visible;
   opacity:1;
 }
-body.openOverlaySidebar::after{
-  visibility: visible;
-  opacity:1;
-}
+
 
 `;
