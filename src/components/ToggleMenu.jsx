@@ -7,7 +7,7 @@ const ItemContainer = styled.div`
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  width: var(--sidebar-width);
+
   padding-block: ${props => (props.type === 'header' ? '.5rem' : null)};
 `;
 const HamburgerButton = styled.button`

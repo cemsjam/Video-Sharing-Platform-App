@@ -1,8 +1,9 @@
-import styled from "styled-components";
-import React from "react";
-import { Link } from "react-router-dom";
-import { breakpoint } from "../utils/breakpoints";
+import styled from 'styled-components';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { breakpoint } from '../utils/breakpoints';
 const Container = styled.div`
+  min-height: calc(100vh - var(--navbar-height));
   height: 100%;
   display: flex;
   align-items: center;
@@ -49,8 +50,8 @@ const Label = styled.label`
   font-size: 0.875rem;
   margin-bottom: 0.25rem;
 `;
-const INPUT_HEIGHT = "45px";
-const INPUT_BORDER_RADIUS = "4px";
+const INPUT_HEIGHT = '45px';
+const INPUT_BORDER_RADIUS = '4px';
 const Input = styled.input`
   display: block;
   width: 100%;
@@ -157,7 +158,7 @@ export function SignUp() {
             />
           </InputRow>
 
-          <SubmitButton>Sign Up</SubmitButton>
+          <SubmitButton>Register</SubmitButton>
         </Form>
         <NoAccountButton to="/signin">Already have an account?</NoAccountButton>
       </FormWrapper>

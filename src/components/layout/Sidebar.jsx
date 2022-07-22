@@ -144,7 +144,6 @@ export function Sidebar({
   const [isDarkMode, setIsDarkMode] = useState(false);
   const handleClick = () => {
     setIsSideBarOpen(false);
-    document.body.removeAttribute('overlay');
   };
   return (
     <Container
@@ -153,7 +152,9 @@ export function Sidebar({
       data-mini={isSidebarMinified}
     >
       {type === 'slideIn' ? (
-        <ToggleMenu handleClick={handleClick} type="header" />
+        <>
+          <ToggleMenu handleClick={handleClick} type="header" />
+        </>
       ) : null}
       <SidebarList>
         <SidebarListItem>

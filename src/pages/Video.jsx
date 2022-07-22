@@ -1,18 +1,18 @@
-import styled from "styled-components";
-import React from "react";
-import { breakpoint } from "../utils/breakpoints";
-import VideoCard from "../components/VideoCard";
-import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
-import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
-import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
-import VideoActionButton from "../components/buttons/VideoActionButton";
-import ChannelPicture from "../components/channel-components/ChannelPicture";
-import ChannelName from "../components/channel-components/ChannelName";
-import ChannelSubscribers from "../components/channel-components/ChannelSubscribers";
-import WidgetButton from "../components/buttons/WidgetButton";
-import AddComment from "../components/AddComment";
-import Comments from "../components/Comments";
+import styled from 'styled-components';
+import React from 'react';
+import { breakpoint } from '../utils/breakpoints';
+import VideoCard from '../components/VideoCard';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
+import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
+import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
+import VideoActionButton from '../components/buttons/VideoActionButton';
+import ChannelPicture from '../components/channel-components/ChannelPicture';
+import ChannelName from '../components/channel-components/ChannelName';
+import ChannelSubscribers from '../components/channel-components/ChannelSubscribers';
+import WidgetButton from '../components/buttons/WidgetButton';
+import AddComment from '../components/AddComment';
+import Comments from '../components/Comments';
 
 const Container = styled.div`
   display: flex;
@@ -67,7 +67,7 @@ const Right = styled.div`
 const Views = styled.span`
   color: var(--secondary-color);
   &::after {
-    content: "•";
+    content: '•';
     margin: 0 0.25rem;
   }
 `;
