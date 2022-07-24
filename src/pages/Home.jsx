@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import VideoCard from '../components/VideoCard';
 const Container = styled.div`
@@ -7,7 +7,9 @@ const Container = styled.div`
   padding: 1rem;
   height: 100%;
 `;
-export function Home() {
+
+function Home() {
+  console.log('home rendered');
   return (
     <Container>
       <VideoCard />
@@ -22,3 +24,5 @@ export function Home() {
     </Container>
   );
 }
+
+export default memo(Home);

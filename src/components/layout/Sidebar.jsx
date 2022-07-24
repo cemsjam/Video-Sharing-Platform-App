@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import SidebarMenuItem from './SidebarMenuItem';
 import {
@@ -141,6 +141,8 @@ export function Sidebar({
   isSideBarOpen,
   setIsSideBarOpen
 }) {
+  console.log('sidebar rendered');
+
   const [isDarkMode, setIsDarkMode] = useState(false);
   const handleClick = () => {
     setIsSideBarOpen(false);
@@ -278,3 +280,5 @@ export function Sidebar({
     </Container>
   );
 }
+
+export const MemoizedSidebar = memo(Sidebar);

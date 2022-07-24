@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { memo } from 'react';
 import { breakpoint } from '../utils/breakpoints';
 import VideoCard from '../components/VideoCard';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
@@ -103,7 +103,9 @@ const CommentCountContainer = styled.div`
   margin-bottom: 1.5rem;
 `;
 
-export function Video() {
+function Video() {
+  console.log('video rendered');
+
   return (
     <Container>
       <Content>
@@ -191,3 +193,5 @@ export function Video() {
     </Container>
   );
 }
+
+export default memo(Video);

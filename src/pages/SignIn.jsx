@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { breakpoint } from '../utils/breakpoints';
 const Container = styled.div`
@@ -86,6 +86,8 @@ const NoAccountButton = styled(Link)`
   }
 `;
 export function SignIn() {
+  console.log('signin rendered');
+
   return (
     <Container>
       <FormWrapper>
@@ -119,8 +121,10 @@ export function SignIn() {
     </Container>
   );
 }
-
+export const MemoizedSignIn = memo(SignIn);
 export function SignUp() {
+  console.log('signup rendered');
+
   return (
     <Container>
       <FormWrapper>
@@ -165,3 +169,4 @@ export function SignUp() {
     </Container>
   );
 }
+export const MemoizedSignUp = memo(SignUp);

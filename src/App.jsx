@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useMatch } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { breakpoint } from './utils/breakpoints';
 import { GlobalStyle } from './styles/globalStyles';
-import { Home } from './pages/Home';
-import { SignIn, SignUp } from './pages/SignIn';
-import { Video } from './pages/Video';
-import { Navbar } from './components/layout/Navbar';
-import { Sidebar } from './components/layout/Sidebar';
+import Home from './pages/Home';
+import { MemoizedSignIn, MemoizedSignUp } from './pages/SignIn';
+import Video from './pages/Video';
+import { MemoizedNavbar } from './components/layout/Navbar';
+import { MemoizedSidebar } from './components/layout/Sidebar';
 
 const Container = styled.div`
   display: flex;
@@ -41,9 +41,10 @@ const Backdrop = styled.div`
   }
 `;
 // TODO implement mobile version of NAV
-// TODO implement mobile version of SIDEBAR
+
 function App() {
-  const location = useLocation();
+  console.log('app rendered');
+  const isVideoPage = useMatch('/video');
   const [isDesktopScreen, setIsDesktopScreen] = useState(
     window.matchMedia(`${breakpoint.upXl}`).matches
   );
@@ -69,7 +70,7 @@ function App() {
     <>
       <GlobalStyle />
 
-      <Navbar
+      <MemoizedNavbar
         isDesktopScreen={isDesktopScreen}
         isSidebarMinified={isSidebarMinified}
         isSideBarOpen={isSideBarOpen}
@@ -78,12 +79,12 @@ function App() {
       />
 
       <Container>
-        {location.pathname !== '/video' && (
-          <Sidebar isSidebarMinified={isSidebarMinified} />
+        {!isVideoPage && (
+          <MemoizedSidebar isSidebarMinified={isSidebarMinified} />
         )}
 
         {!isDesktopScreen && (
-          <Sidebar
+          <MemoizedSidebar
             type="slideIn"
             isSideBarOpen={isSideBarOpen}
             setIsSideBarOpen={setIsSideBarOpen}
@@ -94,8 +95,8 @@ function App() {
             <Routes>
               <Route path="/">
                 <Route index element={<Home />} />
-                <Route path="signin" element={<SignIn />} />
-                <Route path="signup" element={<SignUp />} />
+                <Route path="signin" element={<MemoizedSignIn />} />
+                <Route path="signup" element={<MemoizedSignUp />} />
                 <Route path="video" element={<Video />} />
               </Route>
             </Routes>
