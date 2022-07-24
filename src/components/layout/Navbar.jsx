@@ -57,6 +57,8 @@ export function Navbar({
   isSideBarOpen,
   setIsSideBarOpen
 }) {
+  console.log('nav rendered');
+
   const handleClick = () => {
     if (isDesktopScreen) {
       setIsSidebarMinified(!isSidebarMinified);
@@ -89,3 +91,5 @@ export function Navbar({
     </Container>
   );
 }
+
+export const MemoizedNavbar = React.memo(Navbar);
