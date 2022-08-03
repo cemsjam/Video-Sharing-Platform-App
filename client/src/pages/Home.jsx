@@ -1,4 +1,5 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import VideoCard from '../components/VideoCard';
 const Container = styled.div`
@@ -8,19 +9,24 @@ const Container = styled.div`
   height: 100%;
 `;
 
-function Home() {
+function Home({ type }) {
   console.log('home rendered');
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      const res = await axios.get(`/videos/${type}`);
+      setVideos(res.data);
+    };
+    fetchVideos();
+  }, [type]);
+  console.log(videos);
+
   return (
     <Container>
-      <VideoCard />
-      <VideoCard />
-      <VideoCard />
-      <VideoCard />
-      <VideoCard />
-      <VideoCard />
-      <VideoCard />
-      <VideoCard />
-      <VideoCard />
+      {videos.map(video => (
+        <VideoCard key={video._id} video={video} />
+      ))}
     </Container>
   );
 }
