@@ -164,14 +164,14 @@ export function Sidebar({
         </SidebarListItem>
         <SidebarListItem>
           <SidebarMenuItem
-            path="/explore"
+            path="/trends"
             icon={<ExploreOutlinedIcon />}
             text="Explore"
           />
         </SidebarListItem>
         <SidebarListItem>
           <SidebarMenuItem
-            path="/subscription"
+            path="/subscriptions"
             icon={<SubscriptionsOutlinedIcon />}
             text="Subscription"
           />

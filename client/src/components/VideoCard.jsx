@@ -1,14 +1,16 @@
-import React from "react";
-import { breakpoint } from "../utils/breakpoints";
-import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
-import ChannelPicture from "./channel-components/ChannelPicture";
-import ChannelName from "./channel-components/ChannelName";
-import UploadedTime from "./channel-components/UploadedTime";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { formatDistance } from 'date-fns';
+import { breakpoint } from '../utils/breakpoints';
+import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
+import ChannelPicture from './channel-components/ChannelPicture';
+import ChannelName from './channel-components/ChannelName';
+import UploadedTime from './channel-components/UploadedTime';
 const Columns = styled.div`
   flex: 1 1 100%;
   max-width: 100%;
-  ${(props) =>
+  ${props =>
     !props.type &&
     css`
       @media ${breakpoint.upSm} {
@@ -27,10 +29,10 @@ const Columns = styled.div`
 `;
 const Card = styled.div`
   display: flex;
-  flex-direction: ${(props) => (props.type === "sm" ? "row" : "column")};
-  padding: ${(props) => !props.type && "0 0.5rem 2.5rem"};
-  ${(props) =>
-    props.type === "sm" &&
+  flex-direction: ${props => (props.type === 'sm' ? 'row' : 'column')};
+  padding: ${props => !props.type && '0 0.5rem 2.5rem'};
+  ${props =>
+    props.type === 'sm' &&
     css`
       margin-top: 0.5rem;
       gap: 0.5rem;
@@ -75,26 +77,36 @@ const Views = styled.span`
   color: var(--secondary-color);
   font-size: 0.75rem;
   &::after {
-    content: "•";
+    content: '•';
     margin: 0 0.25rem;
   }
 `;
 
-function VideoCard({ type }) {
+function VideoCard({ type, video }) {
+  console.log();
+
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchChannel = async () => {
+      const res = await axios.get(`/users/find/${video.userId}`);
+      setChannel(res.data);
+    };
+    fetchChannel();
+  }, [video.userId]);
+  console.log(channel);
+
   return (
     <Columns type={type}>
       <Card type={type}>
-        <Media to="/video">
-          <img
-            src="https://i.ytimg.com/vi/MwUUoN_4I8s/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDMnXMRoSCyGLsnApmZMS06Y_6rHg"
-            alt="best dota plays thumbnail"
-          />
+        <Media to={`/videos/find/${video._id}`}>
+          <img src={video.imgUrl} alt="img" />
         </Media>
         <Body>
           {!type && (
             <ChannelPicture
-              path="/channel-name"
-              img="https://yt3.ggpht.com/ytc/AKedOLSDVGzdBliH-ZI7ZxdKcW5QfLv-gmwXgtJd0aaS=s68-c-k-c0x00ffffff-no-rj"
+              path={`/users/find/${channel._id}`}
+              img={channel.img}
               alt="channel image"
               type="link"
               size="2rem"
@@ -102,19 +114,21 @@ function VideoCard({ type }) {
           )}
 
           <InfoContainer>
-            <Link to="/video">
-              <CardHeading>
-                TOP-15 Plays of DPC Summer Tour 3 Dota 2
-              </CardHeading>
+            <Link to={`/videos/find/${video._id}`}>
+              <CardHeading>{video.title}</CardHeading>
             </Link>
             <ChannelName
               size="sm"
-              label="hOlyhexOr"
-              path="/hOlyhexOr-channel"
+              label={channel.name}
+              path={`/users/find/${channel._id}`}
             />
 
-            <Views>3.8K views</Views>
-            <UploadedTime text="21 hours ago" />
+            <Views>{video.views} views</Views>
+            <UploadedTime
+              text={formatDistance(new Date(video.createdAt), new Date(), {
+                addSuffix: true
+              })}
+            />
           </InfoContainer>
         </Body>
       </Card>

@@ -1,5 +1,6 @@
+import React, { memo, useState } from 'react';
 import styled from 'styled-components';
-import React, { memo } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { breakpoint } from '../utils/breakpoints';
 const Container = styled.div`
@@ -86,14 +87,21 @@ const NoAccountButton = styled(Link)`
   }
 `;
 export function SignIn() {
-  console.log('signin rendered');
-
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const handleSignIn = async e => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('/auth/signin', { name, password });
+      console.log(res.data);
+    } catch (error) {}
+  };
   return (
     <Container>
       <FormWrapper>
         <Title>Welcome Back</Title>
         <Subtitle>Welcome back! Please enter your details</Subtitle>
-        <Form>
+        <Form onSubmit={handleSignIn}>
           <InputRow>
             <Label htmlFor="username">username</Label>
             <Input
@@ -102,6 +110,8 @@ export function SignIn() {
               autoComplete="off"
               autoCorrect="off"
               id="username"
+              value={name}
+              onChange={e => setName(e.target.value)}
             />
           </InputRow>
           <InputRow>
@@ -112,6 +122,8 @@ export function SignIn() {
               autoComplete="off"
               autoCorrect="off"
               id="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             />
           </InputRow>
           <SubmitButton>Sign In</SubmitButton>
@@ -124,13 +136,18 @@ export function SignIn() {
 export const MemoizedSignIn = memo(SignIn);
 export function SignUp() {
   console.log('signup rendered');
-
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const handleSignUp = async e => {
+    e.preventDefault();
+  };
   return (
     <Container>
       <FormWrapper>
         <Title>Register</Title>
         <Subtitle>Create New Account</Subtitle>
-        <Form>
+        <Form onSubmit={handleSignUp}>
           <InputRow>
             <Label htmlFor="username">username</Label>
             <Input
@@ -139,6 +156,8 @@ export function SignUp() {
               autoComplete="off"
               autoCorrect="off"
               id="username"
+              value={name}
+              onChange={e => setName(e.target.value)}
             />
           </InputRow>
           <InputRow>
@@ -149,6 +168,8 @@ export function SignUp() {
               autoComplete="off"
               autoCorrect="off"
               id="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
             />
           </InputRow>
           <InputRow>
@@ -159,6 +180,8 @@ export function SignUp() {
               autoComplete="off"
               autoCorrect="off"
               id="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             />
           </InputRow>
 
