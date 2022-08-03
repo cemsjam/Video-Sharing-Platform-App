@@ -29,6 +29,7 @@ import SettingsBrightnessOutlinedIcon from '@mui/icons-material/SettingsBrightne
 import { useState } from 'react';
 import { breakpoint } from '../../utils/breakpoints';
 import ToggleMenu from '../ToggleMenu';
+import { useSelector } from 'react-redux';
 //#region STYLES
 
 const SidebarList = styled.ul`
@@ -142,7 +143,7 @@ export function Sidebar({
   setIsSideBarOpen
 }) {
   console.log('sidebar rendered');
-
+  const { currentUser } = useSelector(state => state.user);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const handleClick = () => {
     setIsSideBarOpen(false);
@@ -194,11 +195,14 @@ export function Sidebar({
           />
         </SidebarListItem>
       </SidebarList>
-
-      <SignInContainer>
-        <SignInText>Sign in to like videos, comment, and subscribe.</SignInText>
-        <SignInButton />
-      </SignInContainer>
+      {!currentUser && (
+        <SignInContainer>
+          <SignInText>
+            Sign in to like videos, comment, and subscribe.
+          </SignInText>
+          <SignInButton />
+        </SignInContainer>
+      )}
 
       <SidebarListTitle>Best Of Cems Tube</SidebarListTitle>
       <SidebarList>

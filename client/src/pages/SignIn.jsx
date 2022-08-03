@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { breakpoint } from '../utils/breakpoints';
+import { useDispatch } from 'react-redux';
+import { loginFailed, loginStart, loginSuccess } from '../redux/userSlice';
+
+//#region styles
 const Container = styled.div`
   min-height: calc(100vh - var(--navbar-height));
   height: 100%;
@@ -86,15 +90,21 @@ const NoAccountButton = styled(Link)`
     color: var(--text-color);
   }
 `;
+
+//#endregion
 export function SignIn() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
   const handleSignIn = async e => {
     e.preventDefault();
+    dispatch(loginStart());
     try {
       const res = await axios.post('/auth/signin', { name, password });
-      console.log(res.data);
-    } catch (error) {}
+      dispatch(loginSuccess(res.data));
+    } catch (error) {
+      dispatch(loginFailed());
+    }
   };
   return (
     <Container>

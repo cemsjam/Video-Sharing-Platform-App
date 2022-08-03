@@ -2,10 +2,13 @@ import React from 'react';
 
 import styled from 'styled-components';
 import SignInButton from '../buttons/SignInButton';
-//icons
+
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ToggleMenu from '../ToggleMenu';
+import User from '../channel-components/User';
+import { useSelector } from 'react-redux';
 
+//#region styles
 const Container = styled.header`
   height: var(--navbar-height);
   width: 100%;
@@ -49,6 +52,7 @@ const SearchButton = styled.button`
   border-left: none;
   border-radius: 0 2px 2px 0;
 `;
+//#endregion
 
 export function Navbar({
   isSidebarMinified,
@@ -57,8 +61,9 @@ export function Navbar({
   isSideBarOpen,
   setIsSideBarOpen
 }) {
+  const { currentUser } = useSelector(state => state.user);
   console.log('nav rendered');
-
+  console.log(currentUser);
   const handleClick = () => {
     if (isDesktopScreen) {
       setIsSidebarMinified(!isSidebarMinified);
@@ -85,9 +90,13 @@ export function Navbar({
           <SearchOutlinedIcon />
         </SearchButton>
       </SearchBar>
-      <ButtonsContainer>
-        <SignInButton />
-      </ButtonsContainer>
+      {currentUser ? (
+        <User user={currentUser} />
+      ) : (
+        <ButtonsContainer>
+          <SignInButton />
+        </ButtonsContainer>
+      )}
     </Container>
   );
 }
