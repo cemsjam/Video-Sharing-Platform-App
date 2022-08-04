@@ -1,6 +1,6 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 export const SidebarLinkBtn = styled(NavLink)`
   display: flex;
@@ -15,7 +15,7 @@ export const SidebarLinkBtn = styled(NavLink)`
   &:is(:hover, :focus) {
     background-color: var(--hover-color);
   }
-  &[aria-current="page"] {
+  &[aria-current='page'] {
     background-color: var(--hover-color);
   }
 `;
@@ -57,19 +57,27 @@ export const ButtonLabel = styled.span`
   background-color: transparent;
 `;
 
-const SidebarMenuItem = (props) => {
+const SidebarMenuItem = props => {
   const handleThemeMode = () => {
     props.setIsDarkMode(!props.isDarkMode);
-    document.documentElement.classList.toggle("light", !props.isDarkMode);
+    document.documentElement.classList.toggle('light', !props.isDarkMode);
   };
-  let isButton = props.type === "button";
+  let isButton = props.type === 'button';
+  let isDropdownDownButton = props.type === 'dropdownButton';
   if (isButton) {
     return (
       <SidebarBtn onClick={handleThemeMode}>
         <IconContainer>{props.icon}</IconContainer>
         <ButtonLabel>
-          {props.isDarkMode ? "Dark Mode" : "Light mode"}
+          {props.isDarkMode ? 'Dark Mode' : 'Light mode'}
         </ButtonLabel>
+      </SidebarBtn>
+    );
+  } else if (isDropdownDownButton) {
+    return (
+      <SidebarBtn onClick={props.onClick}>
+        <IconContainer>{props.icon}</IconContainer>
+        <ButtonLabel>{props.text}</ButtonLabel>
       </SidebarBtn>
     );
   }

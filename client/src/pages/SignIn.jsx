@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 import { breakpoint } from '../utils/breakpoints';
 import { useDispatch } from 'react-redux';
 import { loginFailed, loginStart, loginSuccess } from '../redux/userSlice';
-
+import { auth, provider } from '../firebase';
+import { signInWithPopup } from 'firebase/auth';
+import GoogleIcon from '@mui/icons-material/Google';
 //#region styles
 const Container = styled.div`
   min-height: calc(100vh - var(--navbar-height));
@@ -90,6 +92,17 @@ const NoAccountButton = styled(Link)`
     color: var(--text-color);
   }
 `;
+const GoogleButton = styled.button`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 1rem;
+  background-color: var(--sign-in-button-accent-color);
+  color: var(--sign-in-button-text-color);
+  margin-top: 1rem;
+  height: ${INPUT_HEIGHT};
+  border-radius: ${INPUT_BORDER_RADIUS};
+`;
 
 //#endregion
 export function SignIn() {
@@ -136,7 +149,12 @@ export function SignIn() {
               onChange={e => setPassword(e.target.value)}
             />
           </InputRow>
+
           <SubmitButton>Sign In</SubmitButton>
+          <GoogleButton>
+            <GoogleIcon />
+            <span style={{ margin: 'auto' }}>Sign In With Google</span>
+          </GoogleButton>
         </Form>
         <NoAccountButton to="/signup">Don't have an account?</NoAccountButton>
       </FormWrapper>
@@ -144,6 +162,7 @@ export function SignIn() {
   );
 }
 export const MemoizedSignIn = memo(SignIn);
+
 export function SignUp() {
   console.log('signup rendered');
   const [name, setName] = useState('');

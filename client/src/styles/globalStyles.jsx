@@ -209,6 +209,7 @@ a:not([class]) {
     --transition-duration: 250ms;
     
     --navbar-zindex:900;
+    --navbar-dropdown-zindex:910;
     --sidebar-backdrop-zindex:1000;
     --sidebar-zindex:1100;
 }

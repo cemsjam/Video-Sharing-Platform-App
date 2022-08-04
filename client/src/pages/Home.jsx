@@ -20,7 +20,6 @@ function Home({ type }) {
     };
     fetchVideos();
   }, [type]);
-  console.log(videos);
 
   return (
     <Container>

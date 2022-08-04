@@ -63,7 +63,6 @@ export function Navbar({
 }) {
   const { currentUser } = useSelector(state => state.user);
   console.log('nav rendered');
-  console.log(currentUser);
   const handleClick = () => {
     if (isDesktopScreen) {
       setIsSidebarMinified(!isSidebarMinified);
