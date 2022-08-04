@@ -94,7 +94,6 @@ function VideoCard({ type, video }) {
     };
     fetchChannel();
   }, [video.userId]);
-  console.log(channel);
 
   return (
     <Columns type={type}>

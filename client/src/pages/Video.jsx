@@ -14,6 +14,7 @@ import WidgetButton from '../components/buttons/WidgetButton';
 import AddComment from '../components/AddComment';
 import Comments from '../components/Comments';
 
+//#region STYLES
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -102,7 +103,7 @@ const CommentCountContainer = styled.div`
   text-transform: capitalize;
   margin-bottom: 1.5rem;
 `;
-
+//#endregion
 function Video() {
   console.log('video rendered');
 
