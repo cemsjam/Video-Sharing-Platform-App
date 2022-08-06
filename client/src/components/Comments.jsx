@@ -1,8 +1,14 @@
-import React from "react";
-import ChannelPicture from "./channel-components/ChannelPicture";
-import styled from "styled-components";
-import ChannelName from "./channel-components/ChannelName";
-import UploadedTime from "./channel-components/UploadedTime";
+import React from 'react';
+import ChannelPicture from './channel-components/ChannelPicture';
+import styled from 'styled-components';
+import ChannelName from './channel-components/ChannelName';
+import UploadedTime from './channel-components/UploadedTime';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import AddComment from '../components/AddComment';
+
 const Container = styled.div`
   display: flex;
   gap: 0.5rem;
@@ -19,6 +25,12 @@ const CommentHeader = styled.div`
 `;
 const ActualComment = styled.p`
   font-size: 0.875rem;
+`;
+const CommentCountContainer = styled.div`
+  display: flex;
+  gap: 0.25rem;
+  text-transform: capitalize;
+  margin-bottom: 1.5rem;
 `;
 function Comment() {
   return (
@@ -48,11 +60,33 @@ function Comment() {
     </Container>
   );
 }
-function Comments() {
+function Comments({ videoId }) {
+  const { currentUser } = useSelector((state) => state.user);
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await axios.get(`/comments/${videoId}`);
+        setComments(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchComments();
+  }, [videoId]);
+  console.log('videoId', comments);
+
   return (
     <>
-      <Comment />
-      <Comment />
+      <CommentCountContainer>
+        <span>{comments.length}</span>
+        <span>Comments</span>
+      </CommentCountContainer>
+      <AddComment user={currentUser} />
+      {comments.map((comment) => (
+        <Comment key={comment._id} comment={comment} />
+      ))}
     </>
   );
 }

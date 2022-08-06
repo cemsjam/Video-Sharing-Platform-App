@@ -15,13 +15,12 @@ import ChannelPicture from '../components/channel-components/ChannelPicture';
 import ChannelName from '../components/channel-components/ChannelName';
 import ChannelSubscribers from '../components/channel-components/ChannelSubscribers';
 import WidgetButton from '../components/buttons/WidgetButton';
-import AddComment from '../components/AddComment';
 import Comments from '../components/Comments';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { fetchSuccess, like, dislike } from '../redux/videoSlice';
-
+import { subscription } from '../redux/userSlice';
 //#region STYLES
 const Container = styled.div`
   display: flex;
@@ -50,11 +49,15 @@ const Recommandations = styled.div`
 const VideoContainer = styled.div`
   width: 100%;
   position: relative;
-  padding-top: 56.25%;
+  /* padding-top: 56.25%;
   iframe {
     position: absolute;
     inset: 0;
-  }
+  } */
+`;
+const VideoFrame = styled.video`
+  width: 100%;
+  aspect-ratio: 16/9;
 `;
 const InfoWrapper = styled.div`
   padding: 1.5rem 0 0.5rem;
@@ -105,12 +108,7 @@ const VideoDescription = styled.p`
   color: var(--text-color);
   margin-left: 3.5rem;
 `;
-const CommentCountContainer = styled.div`
-  display: flex;
-  gap: 0.25rem;
-  text-transform: capitalize;
-  margin-bottom: 1.5rem;
-`;
+
 //#endregion
 function Video() {
   console.log('video rendered');
@@ -127,8 +125,9 @@ function Video() {
         const channelRes = await axios.get(
           `/users/find/${videoRes.data.userId}`
         );
-        console.log(videoRes.data);
-        console.log(channelRes.data);
+        console.log('current video ->', videoRes.data);
+        console.log('video channel ->', channelRes.data);
+        console.log('current user', currentUser);
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
       } catch (error) {}
@@ -152,11 +151,23 @@ function Video() {
       console.log(error);
     }
   };
+  const handleSubscription = async () => {
+    try {
+      if (currentUser.subscribedUsers.includes(channel._id)) {
+        await axios.put(`/users/unsub/${channel._id}`);
+      } else {
+        await axios.put(`/users/sub/${channel._id}`);
+      }
+      dispatch(subscription(channel._id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Container>
       <Content>
         <VideoContainer>
-          <iframe
+          {/* <iframe
             width="100%"
             height="100%"
             src="https://www.youtube.com/embed/MwUUoN_4I8s"
@@ -164,7 +175,8 @@ function Video() {
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-          ></iframe>
+          ></iframe> */}
+          <VideoFrame src={currentVideo.videoUrl}></VideoFrame>
         </VideoContainer>
         <InfoWrapper>
           <VideoName>{currentVideo.title}</VideoName>
@@ -227,19 +239,24 @@ function Video() {
               <ChannelSubscribers count={channel.subscribers} />
             </Middle>
             <WidgetButton
-              text="subscribe"
+              text={
+                currentUser?.subscribedUsers?.includes(channel._id)
+                  ? 'subscribed'
+                  : 'subscribe'
+              }
+              onClick={handleSubscription}
               foreground="var(--subscribe-button-color)"
-              background="var(--subscribe-button-bg)"
+              background={
+                currentUser?.subscribedUsers?.includes(channel._id)
+                  ? 'var(--comment-button-inactive-bg)'
+                  : 'var(--subscribe-button-bg)'
+              }
             />
           </DescriptionContainer>
           <VideoDescription>{currentVideo.desc}</VideoDescription>
         </DescriptionWrapper>
-        <CommentCountContainer>
-          <span>5</span>
-          <span>Comments</span>
-        </CommentCountContainer>
-        <AddComment />
-        <Comments />
+
+        <Comments videoId={currentVideo._id} />
       </Content>
       <Recommandations>
         {/* <VideoCard type="sm" />
