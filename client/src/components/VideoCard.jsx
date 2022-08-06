@@ -83,8 +83,6 @@ const Views = styled.span`
 `;
 
 function VideoCard({ type, video }) {
-  console.log();
-
   const [channel, setChannel] = useState({});
 
   useEffect(() => {
@@ -98,7 +96,7 @@ function VideoCard({ type, video }) {
   return (
     <Columns type={type}>
       <Card type={type}>
-        <Media to={`/videos/find/${video._id}`}>
+        <Media to={`/video/${video._id}`}>
           <img src={video.imgUrl} alt="img" />
         </Media>
         <Body>
@@ -113,7 +111,7 @@ function VideoCard({ type, video }) {
           )}
 
           <InfoContainer>
-            <Link to={`/videos/find/${video._id}`}>
+            <Link to={`/video/${video._id}`}>
               <CardHeading>{video.title}</CardHeading>
             </Link>
             <ChannelName

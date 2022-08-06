@@ -99,7 +99,7 @@ function App() {
                 <Route path="subscriptions" element={<Home type="sub" />} />
                 <Route path="signin" element={<MemoizedSignIn />} />
                 <Route path="signup" element={<MemoizedSignUp />} />
-                <Route path="video" element={<Video />} />
+                <Route path="video/:id" element={<Video />} />
               </Route>
             </Routes>
           </Wrapper>

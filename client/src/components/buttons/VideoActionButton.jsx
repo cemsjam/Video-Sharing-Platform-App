@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 const Button = styled.button`
   display: flex;
   align-items: center;
@@ -10,9 +10,9 @@ const Button = styled.button`
   gap: 0.375rem;
 `;
 
-function VideoActionButton({ icon, text }) {
+function VideoActionButton({ icon, text, onClick }) {
   return (
-    <Button title={text}>
+    <Button title={text} onClick={onClick}>
       {icon}
       {text}
     </Button>

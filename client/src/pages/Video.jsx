@@ -1,9 +1,13 @@
+import React, { memo, useEffect, useState } from 'react';
+
 import styled from 'styled-components';
-import React, { memo } from 'react';
 import { breakpoint } from '../utils/breakpoints';
 import VideoCard from '../components/VideoCard';
+import { format, parseISO } from 'date-fns';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
+import ThumbUpAltSharpIcon from '@mui/icons-material/ThumbUpAltSharp';
+import ThumbDownAltSharpIcon from '@mui/icons-material/ThumbDownAltSharp';
 import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
 import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
 import VideoActionButton from '../components/buttons/VideoActionButton';
@@ -13,6 +17,10 @@ import ChannelSubscribers from '../components/channel-components/ChannelSubscrib
 import WidgetButton from '../components/buttons/WidgetButton';
 import AddComment from '../components/AddComment';
 import Comments from '../components/Comments';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { fetchSuccess } from '../redux/videoSlice';
 
 //#region STYLES
 const Container = styled.div`
@@ -106,7 +114,42 @@ const CommentCountContainer = styled.div`
 //#endregion
 function Video() {
   console.log('video rendered');
+  const [channel, setChannel] = useState({});
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(state => state.user);
+  const { currentVideo } = useSelector(state => state.video);
 
+  const path = useLocation().pathname.split('/')[2];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/videos/find/${path}`);
+        const channelRes = await axios.get(
+          `/users/find/${videoRes.data.userId}`
+        );
+        console.log(videoRes.data);
+        console.log(channelRes.data);
+        setChannel(channelRes.data);
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (error) {}
+    };
+    fetchData();
+  }, [path, dispatch]);
+
+  const handleLike = async () => {
+    try {
+      await axios.put(`/users/like/${currentVideo._id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDislike = async () => {
+    try {
+      await axios.put(`/users/dislike/${currentVideo._id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Container>
       <Content>
@@ -122,19 +165,35 @@ function Video() {
           ></iframe>
         </VideoContainer>
         <InfoWrapper>
-          <VideoName>Test Video</VideoName>
+          <VideoName>{currentVideo.title}</VideoName>
           <InfoContainer>
             <Left>
-              <Views>4,024 views</Views>
-              <Date>15 Jul 2022</Date>
+              <Views>{currentVideo.views} views</Views>
+              <Date>
+                {format(parseISO(currentVideo.createdAt), 'dd LLL yyyy')}
+              </Date>
             </Left>
             <Right>
               <VideoActionButton
-                icon={<ThumbUpOutlinedIcon fontSize="medium" />}
-                text="123"
+                onClick={handleLike}
+                icon={
+                  currentVideo.likes?.includes(currentUser?._id) ? (
+                    <ThumbUpAltSharpIcon fontSize="medium" />
+                  ) : (
+                    <ThumbUpOutlinedIcon fontSize="medium" />
+                  )
+                }
+                text={currentVideo.likes.length}
               />
               <VideoActionButton
-                icon={<ThumbDownOutlinedIcon fontSize="medium" />}
+                onClick={handleDislike}
+                icon={
+                  currentVideo.dislikes?.includes(currentUser?._id) ? (
+                    <ThumbDownAltSharpIcon fontSize="medium" />
+                  ) : (
+                    <ThumbDownOutlinedIcon fontSize="medium" />
+                  )
+                }
                 text="dislike"
               />
               <VideoActionButton
@@ -151,19 +210,19 @@ function Video() {
         <DescriptionWrapper>
           <DescriptionContainer>
             <ChannelPicture
-              path="/channel-name"
-              img="https://yt3.ggpht.com/ytc/AKedOLSDVGzdBliH-ZI7ZxdKcW5QfLv-gmwXgtJd0aaS=s68-c-k-c0x00ffffff-no-rj"
-              alt="channel image"
+              path={`/c/${channel._id}`}
+              img={channel.img}
+              alt={channel.img}
               size="3rem"
               type="link"
             />
             <Middle>
               <ChannelName
                 type="primary"
-                label="hOlyhexOr"
-                path="/hOlyhexOr-channel"
+                label={channel.name}
+                path={`/c/${channel._id}`}
               />
-              <ChannelSubscribers count="518k" />
+              <ChannelSubscribers count={channel.subscribers} />
             </Middle>
             <WidgetButton
               text="subscribe"
@@ -171,11 +230,7 @@ function Video() {
               background="var(--subscribe-button-bg)"
             />
           </DescriptionContainer>
-          <VideoDescription>
-            Video uploading app design using React and Styled Components.
-            Youtube clone design with hooks and functional component. React
-            video player.
-          </VideoDescription>
+          <VideoDescription>{currentVideo.desc}</VideoDescription>
         </DescriptionWrapper>
         <CommentCountContainer>
           <span>5</span>
@@ -185,11 +240,11 @@ function Video() {
         <Comments />
       </Content>
       <Recommandations>
+        {/* <VideoCard type="sm" />
         <VideoCard type="sm" />
         <VideoCard type="sm" />
         <VideoCard type="sm" />
-        <VideoCard type="sm" />
-        <VideoCard type="sm" />
+        <VideoCard type="sm" /> */}
       </Recommandations>
     </Container>
   );
