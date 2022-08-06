@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 
 import SidebarMenuItem from './SidebarMenuItem';
 import {
@@ -148,6 +148,14 @@ export function Sidebar({
   const handleClick = () => {
     setIsSideBarOpen(false);
   };
+  useEffect(() => {
+    const isLightMode = localStorage.getItem('light');
+    if (!isLightMode) return;
+    if (isLightMode) {
+      setIsDarkMode(true);
+      document.documentElement.classList.add('light');
+    }
+  }, []);
   return (
     <Container
       type={type}

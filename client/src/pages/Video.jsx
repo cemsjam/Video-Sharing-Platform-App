@@ -1,9 +1,13 @@
+import React, { memo, useEffect, useState } from 'react';
+
 import styled from 'styled-components';
-import React, { memo } from 'react';
 import { breakpoint } from '../utils/breakpoints';
 import VideoCard from '../components/VideoCard';
+import { format, parseISO } from 'date-fns';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
+import ThumbUpAltSharpIcon from '@mui/icons-material/ThumbUpAltSharp';
+import ThumbDownAltSharpIcon from '@mui/icons-material/ThumbDownAltSharp';
 import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
 import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
 import VideoActionButton from '../components/buttons/VideoActionButton';
@@ -11,9 +15,12 @@ import ChannelPicture from '../components/channel-components/ChannelPicture';
 import ChannelName from '../components/channel-components/ChannelName';
 import ChannelSubscribers from '../components/channel-components/ChannelSubscribers';
 import WidgetButton from '../components/buttons/WidgetButton';
-import AddComment from '../components/AddComment';
 import Comments from '../components/Comments';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { fetchSuccess, like, dislike } from '../redux/videoSlice';
+import { subscription } from '../redux/userSlice';
 //#region STYLES
 const Container = styled.div`
   display: flex;
@@ -42,11 +49,15 @@ const Recommandations = styled.div`
 const VideoContainer = styled.div`
   width: 100%;
   position: relative;
-  padding-top: 56.25%;
+  /* padding-top: 56.25%;
   iframe {
     position: absolute;
     inset: 0;
-  }
+  } */
+`;
+const VideoFrame = styled.video`
+  width: 100%;
+  aspect-ratio: 16/9;
 `;
 const InfoWrapper = styled.div`
   padding: 1.5rem 0 0.5rem;
@@ -97,21 +108,66 @@ const VideoDescription = styled.p`
   color: var(--text-color);
   margin-left: 3.5rem;
 `;
-const CommentCountContainer = styled.div`
-  display: flex;
-  gap: 0.25rem;
-  text-transform: capitalize;
-  margin-bottom: 1.5rem;
-`;
+
 //#endregion
 function Video() {
   console.log('video rendered');
+  const [channel, setChannel] = useState({});
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(state => state.user);
+  const { currentVideo } = useSelector(state => state.video);
 
+  const path = useLocation().pathname.split('/')[2];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/videos/find/${path}`);
+        const channelRes = await axios.get(
+          `/users/find/${videoRes.data.userId}`
+        );
+        console.log('current video ->', videoRes.data);
+        console.log('video channel ->', channelRes.data);
+        console.log('current user', currentUser);
+        setChannel(channelRes.data);
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (error) {}
+    };
+    fetchData();
+  }, [path, dispatch]);
+
+  const handleLike = async () => {
+    try {
+      await axios.put(`/users/like/${currentVideo._id}`);
+      dispatch(like(currentUser._id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDislike = async () => {
+    try {
+      await axios.put(`/users/dislike/${currentVideo._id}`);
+      dispatch(dislike(currentUser._id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleSubscription = async () => {
+    try {
+      if (currentUser.subscribedUsers.includes(channel._id)) {
+        await axios.put(`/users/unsub/${channel._id}`);
+      } else {
+        await axios.put(`/users/sub/${channel._id}`);
+      }
+      dispatch(subscription(channel._id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Container>
       <Content>
         <VideoContainer>
-          <iframe
+          {/* <iframe
             width="100%"
             height="100%"
             src="https://www.youtube.com/embed/MwUUoN_4I8s"
@@ -119,22 +175,39 @@ function Video() {
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-          ></iframe>
+          ></iframe> */}
+          <VideoFrame src={currentVideo.videoUrl}></VideoFrame>
         </VideoContainer>
         <InfoWrapper>
-          <VideoName>Test Video</VideoName>
+          <VideoName>{currentVideo.title}</VideoName>
           <InfoContainer>
             <Left>
-              <Views>4,024 views</Views>
-              <Date>15 Jul 2022</Date>
+              <Views>{currentVideo.views} views</Views>
+              <Date>
+                {format(parseISO(currentVideo.createdAt), 'dd LLL yyyy')}
+              </Date>
             </Left>
             <Right>
               <VideoActionButton
-                icon={<ThumbUpOutlinedIcon fontSize="medium" />}
-                text="123"
+                onClick={handleLike}
+                icon={
+                  currentVideo.likes?.includes(currentUser?._id) ? (
+                    <ThumbUpAltSharpIcon fontSize="medium" />
+                  ) : (
+                    <ThumbUpOutlinedIcon fontSize="medium" />
+                  )
+                }
+                text={currentVideo.likes.length}
               />
               <VideoActionButton
-                icon={<ThumbDownOutlinedIcon fontSize="medium" />}
+                onClick={handleDislike}
+                icon={
+                  currentVideo.dislikes?.includes(currentUser?._id) ? (
+                    <ThumbDownAltSharpIcon fontSize="medium" />
+                  ) : (
+                    <ThumbDownOutlinedIcon fontSize="medium" />
+                  )
+                }
                 text="dislike"
               />
               <VideoActionButton
@@ -151,45 +224,46 @@ function Video() {
         <DescriptionWrapper>
           <DescriptionContainer>
             <ChannelPicture
-              path="/channel-name"
-              img="https://yt3.ggpht.com/ytc/AKedOLSDVGzdBliH-ZI7ZxdKcW5QfLv-gmwXgtJd0aaS=s68-c-k-c0x00ffffff-no-rj"
-              alt="channel image"
+              path={`/c/${channel._id}`}
+              img={channel.img}
+              alt={channel.img}
               size="3rem"
               type="link"
             />
             <Middle>
               <ChannelName
                 type="primary"
-                label="hOlyhexOr"
-                path="/hOlyhexOr-channel"
+                label={channel.name}
+                path={`/c/${channel._id}`}
               />
-              <ChannelSubscribers count="518k" />
+              <ChannelSubscribers count={channel.subscribers} />
             </Middle>
             <WidgetButton
-              text="subscribe"
+              text={
+                currentUser?.subscribedUsers?.includes(channel._id)
+                  ? 'subscribed'
+                  : 'subscribe'
+              }
+              onClick={handleSubscription}
               foreground="var(--subscribe-button-color)"
-              background="var(--subscribe-button-bg)"
+              background={
+                currentUser?.subscribedUsers?.includes(channel._id)
+                  ? 'var(--comment-button-inactive-bg)'
+                  : 'var(--subscribe-button-bg)'
+              }
             />
           </DescriptionContainer>
-          <VideoDescription>
-            Video uploading app design using React and Styled Components.
-            Youtube clone design with hooks and functional component. React
-            video player.
-          </VideoDescription>
+          <VideoDescription>{currentVideo.desc}</VideoDescription>
         </DescriptionWrapper>
-        <CommentCountContainer>
-          <span>5</span>
-          <span>Comments</span>
-        </CommentCountContainer>
-        <AddComment />
-        <Comments />
+
+        <Comments videoId={currentVideo._id} />
       </Content>
       <Recommandations>
+        {/* <VideoCard type="sm" />
         <VideoCard type="sm" />
         <VideoCard type="sm" />
         <VideoCard type="sm" />
-        <VideoCard type="sm" />
-        <VideoCard type="sm" />
+        <VideoCard type="sm" /> */}
       </Recommandations>
     </Container>
   );

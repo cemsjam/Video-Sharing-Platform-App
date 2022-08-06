@@ -61,7 +61,16 @@ const SidebarMenuItem = props => {
   const handleThemeMode = () => {
     props.setIsDarkMode(!props.isDarkMode);
     document.documentElement.classList.toggle('light', !props.isDarkMode);
+    setThemeToLocalStorage();
   };
+  const setThemeToLocalStorage = () => {
+    if (!props.isDarkMode) {
+      localStorage.setItem('light', 'active');
+    } else {
+      localStorage.removeItem('light');
+    }
+  };
+
   let isButton = props.type === 'button';
   let isDropdownDownButton = props.type === 'dropdownButton';
   if (isButton) {

@@ -109,12 +109,29 @@ export function SignIn() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+
   const handleSignIn = async e => {
     e.preventDefault();
     dispatch(loginStart());
     try {
       const res = await axios.post('/auth/signin', { name, password });
       dispatch(loginSuccess(res.data));
+    } catch (error) {
+      dispatch(loginFailed());
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    dispatch(loginStart());
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const response = await axios.post('/auth/google', {
+        name: result.user.displayName,
+        email: result.user.email,
+        img: result.user.photoURL
+      });
+      dispatch(loginSuccess(response.data));
+      console.log(result);
     } catch (error) {
       dispatch(loginFailed());
     }
@@ -151,7 +168,7 @@ export function SignIn() {
           </InputRow>
 
           <SubmitButton>Sign In</SubmitButton>
-          <GoogleButton>
+          <GoogleButton onClick={signInWithGoogle}>
             <GoogleIcon />
             <span style={{ margin: 'auto' }}>Sign In With Google</span>
           </GoogleButton>

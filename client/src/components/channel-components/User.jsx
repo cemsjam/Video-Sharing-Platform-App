@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ChannelPicture from './ChannelPicture';
 import SidebarMenuItem from '../layout/SidebarMenuItem';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../redux/videoSlice';
+import { logout } from '../../redux/userSlice';
 const Container = styled.div`
   display: flex;
   align-items: center;

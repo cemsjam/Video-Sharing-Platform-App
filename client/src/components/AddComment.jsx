@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import ChannelPicture from "./channel-components/ChannelPicture";
-import WidgetButton from "./buttons/WidgetButton";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import ChannelPicture from './channel-components/ChannelPicture';
+import WidgetButton from './buttons/WidgetButton';
 const Container = styled.div`
   display: flex;
   gap: 0.5rem;
@@ -40,7 +40,7 @@ const Label = styled.label`
 
 const FormCtaContainer = styled.div`
   margin-left: auto;
-  display: ${(props) => (props.isInteracted ? "flex" : "none")};
+  display: ${(props) => (props.isInteracted ? 'flex' : 'none')};
   gap: 0.5rem;
 
   button {
@@ -48,16 +48,12 @@ const FormCtaContainer = styled.div`
   }
 `;
 
-function AddComment() {
+function AddComment({ user }) {
   const [isInteracted, setIsInteracted] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   return (
     <Container>
-      <ChannelPicture
-        img="https://yt3.ggpht.com/ytc/AKedOLSDVGzdBliH-ZI7ZxdKcW5QfLv-gmwXgtJd0aaS=s68-c-k-c0x00ffffff-no-rj"
-        alt="channel image"
-        size="2.5rem"
-      />
+      <ChannelPicture img={user.img} alt={user.img} size="2.5rem" />
       <FormContainer>
         <FormCommentBox>
           <Input
@@ -69,18 +65,18 @@ function AddComment() {
             onChange={(e) => setValue(e.target.value)}
             onClick={() => setIsInteracted(true)}
           />
-          <Label htmlFor="comment">{!value && "Add a comment..."}</Label>
+          <Label htmlFor="comment">{!value && 'Add a comment...'}</Label>
         </FormCommentBox>
 
         <FormCtaContainer isInteracted={isInteracted}>
           <WidgetButton text="cancel" />
           <WidgetButton
             text="comment"
-            foreground={value ? "#fff" : "var(--secondary-color)"}
+            foreground={value ? '#fff' : 'var(--secondary-color)'}
             background={
               value
-                ? "var(--comment-button-bg)"
-                : "var(--comment-button-inactive-bg)"
+                ? 'var(--comment-button-bg)'
+                : 'var(--comment-button-inactive-bg)'
             }
           />
         </FormCtaContainer>
