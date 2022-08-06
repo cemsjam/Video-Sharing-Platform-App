@@ -20,7 +20,7 @@ import Comments from '../components/Comments';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { fetchSuccess } from '../redux/videoSlice';
+import { fetchSuccess, like, dislike } from '../redux/videoSlice';
 
 //#region STYLES
 const Container = styled.div`
@@ -139,6 +139,7 @@ function Video() {
   const handleLike = async () => {
     try {
       await axios.put(`/users/like/${currentVideo._id}`);
+      dispatch(like(currentUser._id));
     } catch (error) {
       console.log(error);
     }
@@ -146,6 +147,7 @@ function Video() {
   const handleDislike = async () => {
     try {
       await axios.put(`/users/dislike/${currentVideo._id}`);
+      dispatch(dislike(currentUser._id));
     } catch (error) {
       console.log(error);
     }
