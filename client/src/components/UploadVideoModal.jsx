@@ -175,6 +175,10 @@ const ThumbnailImageContainer = styled.div`
     font-size: 2.5rem;
     background-color: var(--background-color);
   }
+  img {
+    max-width: 100%;
+    aspect-ratio: 1;
+  }
 `;
 const InfoSpan = styled.span`
   font-size: 0.95rem;
@@ -220,6 +224,7 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
   const [imgPerc, setImgPerc] = useState(0);
   const [videoPerc, setVideoPerc] = useState(0);
   const navigate = useNavigate();
+
   const handleTags = (e) => {
     setTags(e.target.value.split(','));
   };
@@ -256,7 +261,7 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setInputs((prev) => {
-            return { ...prev, urlType: downloadURL };
+            return { ...prev, [urlType]: downloadURL };
           });
         });
       }
@@ -272,7 +277,9 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
     e.preventDefault();
     console.log({ ...inputs, tags });
     const res = await axios.post('/videos', { ...inputs, tags });
-    res.status === 200 && navigate(`/videos/${res.data._id}`);
+
+    res.status === 200 && navigate(`/video/${res.data._id}`);
+    handleOpenVideoUpload();
   };
   return (
     <Modal>
@@ -321,7 +328,7 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
               <label htmlFor="description">Video Description</label>
               <input
                 type="text"
-                name="description"
+                name="desc"
                 id="description"
                 placeholder="Enter a video description"
                 onChange={handleChange}
@@ -354,23 +361,12 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
                   onChange={(e) => setImg(e.target.files[0])}
                 />
                 <ThumbnailImageContainer>
-                  {Math.round(imgPerc) === 0 ? (
+                  {Math.round(imgPerc) < 100 ? (
                     <UploadIconContainer>
                       <UploadIcon fontSize="inherit" />
                     </UploadIconContainer>
                   ) : (
-                    <span
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%,-50%)',
-                        fontSize: '1rem',
-                        transition: '200 ms linear'
-                      }}
-                    >
-                      {Math.round(imgPerc) + '%'}
-                    </span>
+                    <img src={inputs.imgUrl} alt={inputs.desc} />
                   )}
                 </ThumbnailImageContainer>
               </Label>
