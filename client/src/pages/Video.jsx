@@ -185,6 +185,8 @@ function Video() {
             controlsList="nodownload"
             controls
             autoPlay
+            width={640}
+            height={320}
             src={currentVideo.videoUrl}
           ></VideoFrame>
         </VideoContainer>
