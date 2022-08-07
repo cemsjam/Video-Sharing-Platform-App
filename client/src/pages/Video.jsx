@@ -46,19 +46,23 @@ const Recommandations = styled.div`
     padding-left: 0;
   }
 `;
+const VideoFrame = styled.video``;
 const VideoContainer = styled.div`
   width: 100%;
   position: relative;
-  /* padding-top: 56.25%;
+  padding-top: 56.25%;
   iframe {
     position: absolute;
     inset: 0;
-  } */
+  }
+  ${VideoFrame} {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
 `;
-const VideoFrame = styled.video`
-  width: 100%;
-  aspect-ratio: 16/9;
-`;
+
 const InfoWrapper = styled.div`
   padding: 1.5rem 0 0.5rem;
 `;
@@ -114,8 +118,8 @@ function Video() {
   console.log('video rendered');
   const [channel, setChannel] = useState({});
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(state => state.user);
-  const { currentVideo } = useSelector(state => state.video);
+  const { currentUser } = useSelector((state) => state.user);
+  const { currentVideo } = useSelector((state) => state.video);
 
   const path = useLocation().pathname.split('/')[2];
   useEffect(() => {
@@ -176,7 +180,15 @@ function Video() {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe> */}
-          <VideoFrame src={currentVideo.videoUrl}></VideoFrame>
+          <VideoFrame
+            tabIndex={-1}
+            controlsList="nodownload"
+            controls
+            autoPlay
+            width={640}
+            height={320}
+            src={currentVideo.videoUrl}
+          ></VideoFrame>
         </VideoContainer>
         <InfoWrapper>
           <VideoName>{currentVideo.title}</VideoName>

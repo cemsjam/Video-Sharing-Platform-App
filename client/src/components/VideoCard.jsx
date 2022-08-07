@@ -43,7 +43,14 @@ const Card = styled.div`
     `}
 `;
 const Media = styled(Link)`
-  aspect-ratio: 16/9;
+  position: relative;
+  padding-top: 56.25%;
+  & > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
 `;
 const Body = styled.div`
   display: flex;
