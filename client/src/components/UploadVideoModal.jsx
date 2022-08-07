@@ -168,7 +168,7 @@ const ThumbnailImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  position: relative;
   span {
     font-size: 2.5rem;
     background-color: var(--background-color);
@@ -236,7 +236,7 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        //console.log('Upload is ' + progress + '% done');
+
         urlType === 'imgUrl' ? setImgPerc(progress) : setVideoPerc(progress);
         switch (snapshot.state) {
           case 'paused':
@@ -251,7 +251,6 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
       },
       (error) => {},
       () => {
-        // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setInputs((prev) => {
             return { ...prev, urlType: downloadURL };
@@ -261,8 +260,11 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
     );
   };
   useEffect(() => {
-    video && uploadFile(video);
+    video && uploadFile(video, 'videoUrl');
   }, [video]);
+  useEffect(() => {
+    img && uploadFile(img, 'imgUrl');
+  }, [img]);
 
   return (
     <Modal>
@@ -341,12 +343,27 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
                 <HiddenInput
                   id="img"
                   type="file"
-                  onChange={(e) => setImg(e.target.files)}
+                  onChange={(e) => setImg(e.target.files[0])}
                 />
                 <ThumbnailImageContainer>
-                  <UploadIconContainer>
-                    <UploadIcon fontSize="inherit" />
-                  </UploadIconContainer>
+                  {Math.floor(imgPerc) === 0 ? (
+                    <UploadIconContainer>
+                      <UploadIcon fontSize="inherit" />
+                    </UploadIconContainer>
+                  ) : (
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%,-50%)',
+                        fontSize: '1rem',
+                        transition: '200 ms linear'
+                      }}
+                    >
+                      {Math.floor(imgPerc) + '%'}
+                    </span>
+                  )}
                 </ThumbnailImageContainer>
               </Label>
             </div>
