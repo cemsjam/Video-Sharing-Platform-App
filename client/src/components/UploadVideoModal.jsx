@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL
+} from 'firebase/storage';
+import app from '../firebase';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import UploadIcon from '@mui/icons-material/Upload';
 import styled, { css } from 'styled-components';
+import { useEffect } from 'react';
 //#region styles
 const Modal = styled.div`
   position: fixed;
@@ -23,7 +31,7 @@ const ModalContent = styled.div`
   background-color: var(--background-color);
   margin-top: 20px;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
   border-radius: 4px;
 `;
 const Header = styled.header`
@@ -178,14 +186,83 @@ const InfoSpanLight = styled.span`
   margin-bottom: 1.5rem;
   color: var(--secondary-color);
 `;
+const Footer = styled.footer`
+  height: 64px;
+  padding-inline: 1.5rem;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  position: relative;
+  & > span {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+  }
+  & > span:first-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--comment-button-bg);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: 250ms linear;
+  }
+`;
 //#endregion
 const UploadVideoModal = ({ handleOpenVideoUpload }) => {
   const [video, setVideo] = useState(undefined);
   const [img, setImg] = useState(undefined);
-  const [title, setTitle] = useState(undefined);
-  const [desc, setDesc] = useState(undefined);
+  const [inputs, setInputs] = useState({});
+  const [tags, setTags] = useState(['']);
   const [imgPerc, setImgPerc] = useState(0);
   const [videoPerc, setVideoPerc] = useState(0);
+  const handleTags = (e) => {
+    setTags(e.target.value.split(','));
+  };
+  const handleChange = (e) => {
+    setInputs((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+  const uploadFile = (file, urlType) => {
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //console.log('Upload is ' + progress + '% done');
+        urlType === 'imgUrl' ? setImgPerc(progress) : setVideoPerc(progress);
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {},
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setInputs((prev) => {
+            return { ...prev, urlType: downloadURL };
+          });
+        });
+      }
+    );
+  };
+  useEffect(() => {
+    video && uploadFile(video);
+  }, [video]);
 
   return (
     <Modal>
@@ -198,7 +275,7 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
             <CloseOutlinedIcon fontSize="small" />
           </Button>
         </Header>
-        {!video ? (
+        {Math.floor(videoPerc) < 99 ? (
           <Content>
             <Label htmlFor="uploadVideo">
               <UploadIconContainer>
@@ -224,18 +301,20 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
               <label htmlFor="title">Video Title</label>
               <input
                 type="text"
-                name=""
+                name="title"
                 id="title"
                 placeholder="Enter a video title"
+                onChange={handleChange}
               />
             </InputSection>
             <InputSection>
               <label htmlFor="description">Video Description</label>
               <input
                 type="text"
-                name=""
+                name="description"
                 id="description"
                 placeholder="Enter a video description"
+                onChange={handleChange}
               />
             </InputSection>
             <div
@@ -254,6 +333,7 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
                   rows={3}
                   cols={50}
                   placeholder="Enter video tags"
+                  onChange={handleTags}
                 />
               </InputSection>
               <Label htmlFor="img">
@@ -273,6 +353,21 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
             <Button variant="upload">Upload</Button>
           </Content>
         )}
+        <Footer>
+          <span style={{ transform: `scaleX(${videoPerc}%)` }}></span>
+          <span
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%'
+            }}
+          >
+            {videoPerc > 0
+              ? 'Uploading:' + Math.floor(videoPerc) + '%'
+              : 'Waiting for upload...'}
+            {videoPerc === 100 && <span>Video has been uploaded!</span>}
+          </span>
+        </Footer>
       </ModalContent>
     </Modal>
   );
