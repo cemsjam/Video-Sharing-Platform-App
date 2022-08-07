@@ -10,7 +10,7 @@ import UploadedTime from './channel-components/UploadedTime';
 const Columns = styled.div`
   flex: 1 1 100%;
   max-width: 100%;
-  ${props =>
+  ${(props) =>
     !props.type &&
     css`
       @media ${breakpoint.upSm} {
@@ -29,9 +29,9 @@ const Columns = styled.div`
 `;
 const Card = styled.div`
   display: flex;
-  flex-direction: ${props => (props.type === 'sm' ? 'row' : 'column')};
-  padding: ${props => !props.type && '0 0.5rem 2.5rem'};
-  ${props =>
+  flex-direction: ${(props) => (props.type === 'sm' ? 'row' : 'column')};
+  padding: ${(props) => !props.type && '0 0.5rem 2.5rem'};
+  ${(props) =>
     props.type === 'sm' &&
     css`
       margin-top: 0.5rem;
@@ -102,7 +102,7 @@ function VideoCard({ type, video }) {
         <Body>
           {!type && (
             <ChannelPicture
-              path={`/users/find/${channel._id}`}
+              path={`/c/${channel._id}`}
               img={channel.img}
               alt="channel image"
               type="link"
@@ -117,7 +117,7 @@ function VideoCard({ type, video }) {
             <ChannelName
               size="sm"
               label={channel.name}
-              path={`/users/find/${channel._id}`}
+              path={`/c/${channel._id}`}
             />
 
             <Views>{video.views} views</Views>

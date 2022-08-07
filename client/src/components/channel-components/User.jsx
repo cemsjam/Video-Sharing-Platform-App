@@ -1,6 +1,7 @@
 import React from 'react';
 import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import styled from 'styled-components';
 import ChannelPicture from './ChannelPicture';
 import SidebarMenuItem from '../layout/SidebarMenuItem';
@@ -11,22 +12,6 @@ const Container = styled.div`
   align-items: center;
   gap: 0.5rem;
   padding-inline: 0.5rem 1.5rem;
-`;
-const CreateVideoWrapper = styled.div`
-  position: relative;
-`;
-
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border: none;
-  outline: none;
-  user-select: none;
-  background: none;
-  cursor: pointer;
 `;
 const DropdownList = styled.ul`
   position: absolute;
@@ -41,6 +26,29 @@ const DropdownList = styled.ul`
   opacity: 1;
   transition: var(--transition-duration);
 `;
+const CreateVideoWrapper = styled.div`
+  position: relative;
+  &:focus-within {
+    ${DropdownList} {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+`;
+
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  outline: none;
+  user-select: none;
+  background: none;
+  cursor: pointer;
+`;
+
 const ProfileWrapper = styled.div`
   position: relative;
   &:focus-within {
@@ -52,14 +60,25 @@ const ProfileWrapper = styled.div`
 `;
 const DropdownListItem = styled.li``;
 
-const User = ({ user }) => {
+const User = ({ user, handleOpenVideoUpload }) => {
   const dispatch = useDispatch();
+
   return (
     <Container>
       <CreateVideoWrapper>
         <Button type="button" title="Create">
           <VideoCallOutlinedIcon />
         </Button>
+        <DropdownList>
+          <DropdownListItem>
+            <SidebarMenuItem
+              type="dropdownButton"
+              text="Upload Video"
+              icon={<AddBoxOutlinedIcon />}
+              onClick={handleOpenVideoUpload}
+            />
+          </DropdownListItem>
+        </DropdownList>
       </CreateVideoWrapper>
       <ProfileWrapper>
         <Button type="button">

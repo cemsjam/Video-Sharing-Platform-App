@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 import SignInButton from '../buttons/SignInButton';
-
+import UploadVideoModal from '../UploadVideoModal';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ToggleMenu from '../ToggleMenu';
 import User from '../channel-components/User';
@@ -61,8 +61,13 @@ export function Navbar({
   isSideBarOpen,
   setIsSideBarOpen
 }) {
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   console.log('nav rendered');
+  const [openVideoUpload, setOpenVideoUpload] = useState(false);
+  const handleOpenVideoUpload = () => {
+    setOpenVideoUpload(!openVideoUpload);
+  };
+
   const handleClick = () => {
     if (isDesktopScreen) {
       setIsSidebarMinified(!isSidebarMinified);
@@ -90,11 +95,17 @@ export function Navbar({
         </SearchButton>
       </SearchBar>
       {currentUser ? (
-        <User user={currentUser} />
+        <User
+          handleOpenVideoUpload={handleOpenVideoUpload}
+          user={currentUser}
+        />
       ) : (
         <ButtonsContainer>
           <SignInButton />
         </ButtonsContainer>
+      )}
+      {openVideoUpload && (
+        <UploadVideoModal handleOpenVideoUpload={handleOpenVideoUpload} />
       )}
     </Container>
   );
