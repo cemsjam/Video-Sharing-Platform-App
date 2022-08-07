@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import UploadIcon from '@mui/icons-material/Upload';
 import styled, { css } from 'styled-components';
+//#region styles
 const Modal = styled.div`
   position: fixed;
   width: 100%;
@@ -94,6 +95,7 @@ const Label = styled.label`
       align-items: flex-start;
       gap: 1rem;
       width: fit-content;
+      margin-left: auto;
       span {
         font-size: 1rem;
         color: var(--secondary-color);
@@ -125,7 +127,7 @@ const HiddenInput = styled.input`
 const InputSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
   input,
   label {
     display: block;
@@ -136,10 +138,16 @@ const InputSection = styled.div`
     text-transform: capitalize;
     font-weight: bold;
   }
-  input {
+  input,
+  textarea {
     background-color: var(--main-content-bg-color);
     height: 50px;
     padding-inline: 1rem;
+  }
+  textarea {
+    padding-block: 1rem;
+    overflow: hidden;
+    resize: none;
   }
   margin-bottom: 1rem;
 `;
@@ -152,6 +160,7 @@ const ThumbnailImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   span {
     font-size: 2.5rem;
     background-color: var(--background-color);
@@ -169,10 +178,14 @@ const InfoSpanLight = styled.span`
   margin-bottom: 1.5rem;
   color: var(--secondary-color);
 `;
-
+//#endregion
 const UploadVideoModal = ({ handleOpenVideoUpload }) => {
-  const [img, setImg] = useState(undefined);
   const [video, setVideo] = useState(undefined);
+  const [img, setImg] = useState(undefined);
+  const [title, setTitle] = useState(undefined);
+  const [desc, setDesc] = useState(undefined);
+  const [imgPerc, setImgPerc] = useState(0);
+  const [videoPerc, setVideoPerc] = useState(0);
 
   return (
     <Modal>
@@ -225,19 +238,38 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
                 placeholder="Enter a video description"
               />
             </InputSection>
-            <Label htmlFor="img">
-              <span>Thumbnail Picture</span>
-              <HiddenInput
-                id="img"
-                type="file"
-                onChange={(e) => setImg(e.target.files)}
-              />
-              <ThumbnailImageContainer>
-                <UploadIconContainer>
-                  <UploadIcon fontSize="inherit" />
-                </UploadIconContainer>
-              </ThumbnailImageContainer>
-            </Label>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr min-content',
+                gap: 15
+              }}
+            >
+              <InputSection>
+                <label htmlFor="tags">Video tags</label>
+                <textarea
+                  type="textarea"
+                  name=""
+                  id="tags"
+                  rows={3}
+                  cols={50}
+                  placeholder="Enter video tags"
+                />
+              </InputSection>
+              <Label htmlFor="img">
+                <span>Thumbnail Picture</span>
+                <HiddenInput
+                  id="img"
+                  type="file"
+                  onChange={(e) => setImg(e.target.files)}
+                />
+                <ThumbnailImageContainer>
+                  <UploadIconContainer>
+                    <UploadIcon fontSize="inherit" />
+                  </UploadIconContainer>
+                </ThumbnailImageContainer>
+              </Label>
+            </div>
             <Button variant="upload">Upload</Button>
           </Content>
         )}
