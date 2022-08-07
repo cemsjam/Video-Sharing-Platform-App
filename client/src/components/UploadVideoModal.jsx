@@ -10,6 +10,8 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import UploadIcon from '@mui/icons-material/Upload';
 import styled, { css } from 'styled-components';
 import { useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 //#region styles
 const Modal = styled.div`
   position: fixed;
@@ -217,6 +219,7 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
   const [tags, setTags] = useState(['']);
   const [imgPerc, setImgPerc] = useState(0);
   const [videoPerc, setVideoPerc] = useState(0);
+  const navigate = useNavigate();
   const handleTags = (e) => {
     setTags(e.target.value.split(','));
   };
@@ -265,7 +268,12 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
   useEffect(() => {
     img && uploadFile(img, 'imgUrl');
   }, [img]);
-
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    console.log({ ...inputs, tags });
+    const res = await axios.post('/videos', { ...inputs, tags });
+    res.status === 200 && navigate(`/videos/${res.data._id}`);
+  };
   return (
     <Modal>
       <ModalContent>
@@ -277,7 +285,7 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
             <CloseOutlinedIcon fontSize="small" />
           </Button>
         </Header>
-        {Math.floor(videoPerc) < 99 ? (
+        {Math.round(videoPerc) < 99 ? (
           <Content>
             <Label htmlFor="uploadVideo">
               <UploadIconContainer>
@@ -346,7 +354,7 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
                   onChange={(e) => setImg(e.target.files[0])}
                 />
                 <ThumbnailImageContainer>
-                  {Math.floor(imgPerc) === 0 ? (
+                  {Math.round(imgPerc) === 0 ? (
                     <UploadIconContainer>
                       <UploadIcon fontSize="inherit" />
                     </UploadIconContainer>
@@ -361,13 +369,15 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
                         transition: '200 ms linear'
                       }}
                     >
-                      {Math.floor(imgPerc) + '%'}
+                      {Math.round(imgPerc) + '%'}
                     </span>
                   )}
                 </ThumbnailImageContainer>
               </Label>
             </div>
-            <Button variant="upload">Upload</Button>
+            <Button onClick={handleUpload} variant="upload">
+              Upload
+            </Button>
           </Content>
         )}
         <Footer>
@@ -380,7 +390,7 @@ const UploadVideoModal = ({ handleOpenVideoUpload }) => {
             }}
           >
             {videoPerc > 0
-              ? 'Uploading:' + Math.floor(videoPerc) + '%'
+              ? 'Uploading:' + Math.round(videoPerc) + '%'
               : 'Waiting for upload...'}
             {videoPerc === 100 && <span>Video has been uploaded!</span>}
           </span>
