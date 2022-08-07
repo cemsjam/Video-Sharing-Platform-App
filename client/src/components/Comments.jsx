@@ -32,30 +32,35 @@ const CommentCountContainer = styled.div`
   text-transform: capitalize;
   margin-bottom: 1.5rem;
 `;
-function Comment() {
+function Comment({ comment }) {
+  console.log('comment', comment);
+  const [channel, setChannel] = useState({});
+  useEffect(() => {
+    const fetchChannel = async () => {
+      const res = await axios.get(`/users/find/${comment.userId}`);
+      setChannel(res.data);
+    };
+    fetchChannel();
+  }, [comment.userId]);
   return (
     <Container>
       <ChannelPicture
         size="2.5rem"
         type="link"
-        path="/channel-name"
-        img="https://yt3.ggpht.com/ytc/AKedOLSDVGzdBliH-ZI7ZxdKcW5QfLv-gmwXgtJd0aaS=s68-c-k-c0x00ffffff-no-rj"
+        path={`/c/${channel._id}`}
+        img={channel.name}
         alt="channel image"
       />
       <CommentBody>
         <CommentHeader>
           <ChannelName
-            label="Channel Name"
+            label={channel.name}
             type="primary"
-            path="/channel-name"
+            path={`/c/${channel._id}`}
           />
           <UploadedTime text="22 hours ago" />
         </CommentHeader>
-        <ActualComment>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta enim
-          recusandae odit sed officia alias. Illo magni laboriosam cupiditate
-          facere.
-        </ActualComment>
+        <ActualComment>{comment.desc}</ActualComment>
       </CommentBody>
     </Container>
   );

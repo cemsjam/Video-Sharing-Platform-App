@@ -67,8 +67,8 @@ const Container = styled.aside`
   width: var(--sidebar-width);
   overflow-x: hidden;
   overflow-y: auto;
-  z-index: var(--sidebar-zindex);
-  ${props =>
+
+  ${(props) =>
     props.type === 'slideIn' &&
     css`
       position: fixed;
@@ -79,11 +79,12 @@ const Container = styled.aside`
       height: 100vh;
       top: 0;
     `}
-   
-    &.active{
-      visibility:visible;
-      transform:translateX(0);
-    }
+
+  &.active {
+    visibility: visible;
+    transform: translateX(0);
+    z-index: var(--sidebar-zindex);
+  }
 
   &::-webkit-scrollbar {
     width: 16px;
@@ -106,7 +107,7 @@ const Container = styled.aside`
       display: none;
     }
   }
-  &[data-mini="true"] {
+  &[data-mini='true'] {
     width: var(--sidebar-mini-width);
     ${SidebarList} {
       border: none;
@@ -143,7 +144,7 @@ export function Sidebar({
   setIsSideBarOpen
 }) {
   console.log('sidebar rendered');
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const handleClick = () => {
     setIsSideBarOpen(false);
